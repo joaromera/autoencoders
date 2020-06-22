@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include <fdeep/fdeep.hpp>
 
 //==============================================================================
 /**
@@ -56,6 +57,19 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    
+    const dsp::FFT mFFT;
+    const size_t mDepth;
+    
+    std::vector<float> mInput;
+    
+    fdeep::tensor_shape mTensorShapeDepth;
+    fdeep::tensors mTensors;
+    fdeep::model* mEncoder;
+    fdeep::model* mDecoder;
+    fdeep::model* mAutoencoder;
+    fdeep::tensors mPredictionResult;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AutoencoderJuceAudioProcessor)
 };

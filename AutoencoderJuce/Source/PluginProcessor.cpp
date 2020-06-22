@@ -11,25 +11,39 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include <fdeep/fdeep.hpp>
+#include <memory>
 
 //==============================================================================
 AutoencoderJuceAudioProcessor::AutoencoderJuceAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", AudioChannelSet::stereo(), true)
-                     #endif
-                       )
+    : AudioProcessor (BusesProperties()
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+                      .withInput  ("Input",  AudioChannelSet::stereo(), true)
 #endif
+                      .withOutput ("Output", AudioChannelSet::stereo(), true)
+#endif
+                      )
+#endif
+    // @TODO: verificar si mFFT, mDepth, mInput y mTensorShapeDepth realmente tienen que ser const
+    // o si pueden/deberían ser parametrizables
+    , mFFT(512)
+    , mDepth(441)
+    , mInput(mDepth, 1.0f)
+    , mTensorShapeDepth(mDepth)
+    , mTensors { fdeep::tensor(mTensorShapeDepth, mInput) }
+    , mEncoder(nullptr)
+    , mDecoder(nullptr)
+    , mAutoencoder(nullptr)
+    , mPredictionResult()
 {
-    dsp::FFT fft(512);
+    // @TODO: al construir una nueva instancia ver qué modelo cargar (identidad?)
+    mAutoencoder = new fdeep::model (fdeep::load_model("../autoencoder.h5"));
 }
 
 AutoencoderJuceAudioProcessor::~AutoencoderJuceAudioProcessor()
 {
+    delete mAutoencoder;
 }
 
 //==============================================================================
