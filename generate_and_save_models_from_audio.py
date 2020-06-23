@@ -119,6 +119,11 @@ def make_autoencoder(filename):
                     shuffle=True, 
                     validation_data= (X_val,X_val),
                     callbacks=[tensorboard_callback])
+    
+    # save models
+    encoder.save('encoder')
+    decoder.save('decoder')
+    autoencoder.save('autoencoder')
 
 def main():
     """Do stuff"""
