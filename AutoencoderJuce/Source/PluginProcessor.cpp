@@ -160,29 +160,27 @@ void AutoencoderJuceAudioProcessor::processBlock (AudioBuffer<float>& buffer, Mi
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    auto* channelLeft  = buffer.getWritePointer (0);
+    auto* channelRight = buffer.getWritePointer (1);
 
-        // ..do something to the data...
+    for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+    {
+        channelLeft[sample] *= 0.5;
+        channelRight[sample] *= 0.5;
     }
 }
 
 //==============================================================================
 bool AutoencoderJuceAudioProcessor::hasEditor() const
 {
-    return true; // (change this to false if you choose to not supply an editor)
+    return false;
+    // return true; // (change this to false if you choose to not supply an editor)
 }
 
 AudioProcessorEditor* AutoencoderJuceAudioProcessor::createEditor()
 {
-    return new AutoencoderJuceAudioProcessorEditor (*this);
+    return nullptr;
+    // return new AutoencoderJuceAudioProcessorEditor (*this);
 }
 
 //==============================================================================
