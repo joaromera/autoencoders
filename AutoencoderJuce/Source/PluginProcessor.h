@@ -68,6 +68,7 @@ private:
     fdeep::model* mEncoder;
     fdeep::model* mDecoder;
     fdeep::model* mAutoencoder;
+    float in[1024];
     fdeep::tensors mPredictionResult;
     
     //==============================================================================

@@ -12,6 +12,7 @@
 #include "PluginEditor.h"
 #include <fdeep/fdeep.hpp>
 #include <memory>
+#include <exception>
 
 //==============================================================================
 AutoencoderJuceAudioProcessor::AutoencoderJuceAudioProcessor()
@@ -31,19 +32,25 @@ AutoencoderJuceAudioProcessor::AutoencoderJuceAudioProcessor()
     , mDepth(441)
     , mInput(mDepth, 1.0f)
     , mTensorShapeDepth(mDepth)
-    , mTensors { fdeep::tensor(mTensorShapeDepth, mInput) }
     , mEncoder(nullptr)
     , mDecoder(nullptr)
     , mAutoencoder(nullptr)
     , mPredictionResult()
 {
-    // @TODO: al construir una nueva instancia ver qué modelo cargar (identidad?)
-    mAutoencoder = new fdeep::model (fdeep::load_model("../autoencoder.h5"));
+    mTensors.push_back(fdeep::tensor(mTensorShapeDepth, mInput));
+    try {
+//        juce::File path ("/Users/jromera/Documents/UNQ/tesis/autoencoders/AutoencoderJuce/autoencoder.h5");
+//        const std::string pathStr = path.loadFileAsString().toStdString();
+        mAutoencoder = new fdeep::model (fdeep::load_model("/Users/jromera/Documents/UNQ/tesis/autoencoders/AutoencoderJuce/autoencoder.h5"));
+    } catch (std::exception &e) {
+        DBG(e.what());
+        DBG("OUCH");
+    }
 }
 
 AutoencoderJuceAudioProcessor::~AutoencoderJuceAudioProcessor()
 {
-    delete mAutoencoder;
+    if (mAutoencoder) delete mAutoencoder;
 }
 
 //==============================================================================
@@ -151,22 +158,39 @@ void AutoencoderJuceAudioProcessor::processBlock (AudioBuffer<float>& buffer, Mi
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
     auto* channelLeft  = buffer.getWritePointer (0);
     auto* channelRight = buffer.getWritePointer (1);
-
-    for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
+    
+    const fdeep::tensors decoderOutput = mAutoencoder->predict(mTensors);
+    
+    std::vector<dsp::Complex<float>> in(decoderOutput.size());
+    std::vector<dsp::Complex<float>> out(decoderOutput.size());
+    
+    for (const auto &wa : *(decoderOutput[0].as_vector()))
     {
-        channelLeft[sample] *= 0.5;
-        channelRight[sample] *= 0.5;
+        in.emplace_back(wa);
+        out.push_back(0);
+    }
+    
+    for (int sample = 0; sample < out.size(); ++sample)
+    {
+        mFFT.perform(&in[sample], &out[sample], true);
+    }
+    
+//    for (size_t sample = 0; sample < decoderOutput[0].as_vector()->size(); ++sample)
+//    {
+//        in[sample] = decoderOutput[0].as_vector()->operator[](sample);
+//    }
+//    
+//    mFFT.performRealOnlyInverseTransform(in);
+    
+    for (int sample = 0; sample < buffer.getNumSamples() && sample < out.size(); ++sample)
+    {
+        channelLeft[sample] = out[sample].real();
+        channelRight[sample] = out[sample].real();
     }
 }
 
