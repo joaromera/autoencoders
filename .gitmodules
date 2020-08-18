@@ -10,3 +10,6 @@
 [submodule "AutoencoderJuce/external/FunctionalPlus"]
 	path = AutoencoderJuce/external/FunctionalPlus
 	url = https://github.com/Dobiasd/FunctionalPlus.git
+[submodule "AutoencoderJuce/external/JUCE"]
+	path = AutoencoderJuce/external/JUCE
+	url = https://github.com/juce-framework/JUCE.git

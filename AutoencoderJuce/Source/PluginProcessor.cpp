@@ -39,7 +39,7 @@ AutoencoderJuceAudioProcessor::AutoencoderJuceAudioProcessor()
 {
     mTensors.push_back(fdeep::tensor(mTensorShapeDepth, mInput));
     try {
-        mAutoencoder = new fdeep::model (fdeep::load_model(H5_FILE));
+        mAutoencoder = new fdeep::model (fdeep::load_model("/Users/jromera/Documents/UNQ/tesis/autoencoders/AutoencoderJuce/autoencoder.h5"));
     } catch (std::exception &e) {
         DBG(e.what());
     }
