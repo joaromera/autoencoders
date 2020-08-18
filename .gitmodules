@@ -1,0 +1,12 @@
+[submodule "AutoencoderJuce/external/frugally-deep"]
+	path = AutoencoderJuce/external/frugally-deep
+	url = https://github.com/Dobiasd/frugally-deep.git
+[submodule "AutoencoderJuce/external/json"]
+	path = AutoencoderJuce/external/json
+	url = https://github.com/nlohmann/json.git
+[submodule "AutoencoderJuce/external/eigen"]
+	path = AutoencoderJuce/external/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "AutoencoderJuce/external/FunctionalPlus"]
+	path = AutoencoderJuce/external/FunctionalPlus
+	url = https://github.com/Dobiasd/FunctionalPlus.git
