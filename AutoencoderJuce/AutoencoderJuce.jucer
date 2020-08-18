@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="qOk8j4" name="AutoencoderJuce" projectType="audioplug" jucerVersion="5.4.7"
-              headerPath="/Users/jromera/Documents/UNQ/tesis/frugally-deep/include/&#10;/Users/jromera/Documents/UNQ/tesis/eigen/&#10;/Users/jromera/Documents/UNQ/tesis/FunctionalPlus/include/&#10;/Users/jromera/Documents/UNQ/tesis/json/include/&#10;/Users/jromera/Documents/UNQ/tesis/frugally-deep">
+              headerPath="../../external/frugally-deep/include&#10;../../external/eigen&#10;../../external/FunctionalPlus/include&#10;../../external/json/include">
   <MAINGROUP id="lFxXHc" name="AutoencoderJuce">
     <GROUP id="{524754C0-EB7B-A48E-CC55-D2F0F6BD2F41}" name="Source">
       <FILE id="SaXfZE" name="PluginProcessor.cpp" compile="1" resource="0"
