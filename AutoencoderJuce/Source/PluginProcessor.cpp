@@ -41,7 +41,7 @@ AutoencoderJuceAudioProcessor::AutoencoderJuceAudioProcessor()
     try {
 //        juce::File path ("/Users/jromera/Documents/UNQ/tesis/autoencoders/AutoencoderJuce/autoencoder.h5");
 //        const std::string pathStr = path.loadFileAsString().toStdString();
-        mAutoencoder = new fdeep::model (fdeep::load_model("/Users/jromera/Documents/UNQ/tesis/autoencoders/AutoencoderJuce/autoencoder.h5"));
+        mAutoencoder = new fdeep::model (fdeep::load_model("../../autoencoder.h5"));
     } catch (std::exception &e) {
         DBG(e.what());
         DBG("OUCH");
