@@ -583,7 +583,7 @@
 					"../../external/JUCE/modules",
 					"../../external/frugally-deep/include",
 					"../../external/eigen",
-					"../../external/functionalplus/include",
+					"../../external/FunctionalPlus/include",
 					"../../external/json//include",
 					"$(inherited)",
 				);
@@ -648,7 +648,7 @@
 					"../../external/JUCE/modules",
 					"../../external/frugally-deep/include",
 					"../../external/eigen",
-					"../../external/functionalplus/include",
+					"../../external/FunctionalPlus/include",
 					"../../external/json//include",
 					"$(inherited)",
 				);

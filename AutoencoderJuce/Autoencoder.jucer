@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="rdtIF1" name="Autoencoder" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              headerPath="../../external/frugally-deep/include&#10;../../external/eigen&#10;../../external/functionalplus/include&#10;../../external/json//include"
+              headerPath="../../external/frugally-deep/include&#10;../../external/eigen&#10;../../external/FunctionalPlus/include&#10;../../external/json//include"
               maxBinaryFileSize="20971520" cppLanguageStandard="17" bundleIdentifier="Autoencoders">
   <MAINGROUP id="ZA68TQ" name="Autoencoder">
     <GROUP id="{396F6501-1712-AFD9-6238-AFA54B42F79F}" name="Source">
