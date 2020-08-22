@@ -38,6 +38,7 @@ private:
     void addMessageToList(const juce::MidiMessage&, const juce::String&);
     void logMessage (const juce::String& m);
     
+    juce::dsp::FFT mFFT {512};
     std::unique_ptr<Autoencoder> mAutoencoder;
     juce::TextButton openButton;
     juce::Slider hopLengthSlider;

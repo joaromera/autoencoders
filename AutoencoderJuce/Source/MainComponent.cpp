@@ -118,11 +118,8 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     // Right now we are not producing any data, in which case we need to clear the buffer
     // (to prevent the output of random noise)
     bufferToFill.clearActiveBufferRegion();
-//    for (int i = 0; i < bufferToFill.buffer->getNumSamples(); ++i)
-//    {
-//        bufferToFill.buffer->setSample(0,i,0);
-//        bufferToFill.buffer->setSample(1,i,0);
-//    }
+
+    if (mAutoencoder) mAutoencoder->getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
