@@ -3,7 +3,7 @@
 import argparse
 
 
-def make_autoencoder(filename):
+def make_autoencoder(filename, epochs=1):
     # Utils
     from glob import glob
     import tqdm
@@ -114,7 +114,7 @@ def make_autoencoder(filename):
     silence = np.zeros([int(X_train.shape[0]*0.1),X_train.shape[1]])
 
     autoencoder.fit(np.vstack([silence, X_train]), np.vstack([silence, X_train]),
-                    epochs=2,
+                    epochs=epochs,
                     batch_size=128,
                     shuffle=True, 
                     validation_data= (X_val,X_val),
@@ -130,8 +130,9 @@ def main():
 
     parser = argparse.ArgumentParser(description='Create a simple autoencoder, train it with some input wave file and output the saved models')
     parser.add_argument('-a', '--audio', help="WAVE file to build upon the autoencoder", required=True)
+    parser.add_argument('-e', '--epochs', help="Number of epochs for fitting", required=False)
     args = parser.parse_args()
-    make_autoencoder(args.audio)
+    make_autoencoder(args.audio, int(args.epochs))
 
 
 if __name__ == "__main__":
