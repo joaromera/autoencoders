@@ -21,10 +21,10 @@ class Autoencoder
 public:
     Autoencoder(const std::string& path)
     {
-        DBG("[AUTOENCODER] Constructing with " + path);
+        DBG("[AUTOENCODER] Constructing with " << path);
         mAutoencoder = std::make_unique<fdeep::model>(fdeep::load_model(path));
-        const auto result = mAutoencoder->predict(mTensors);
-        DBG(fdeep::show_tensors(result));
+        mPredictionResult = mAutoencoder->predict(mTensors);
+        DBG("[AUTOENCODER] Printing prediction results: " << fdeep::show_tensors(mPredictionResult));
     }
 
     Autoencoder() = delete;
