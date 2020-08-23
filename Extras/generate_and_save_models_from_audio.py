@@ -125,6 +125,8 @@ def make_autoencoder(filename, epochs=1):
     decoder.save('decoder')
     autoencoder.save('autoencoder')
 
+    print("\n\nRemember to convert your models with the convert_model.py in Frugally Deep's keras_export folder.\n\n")
+
 def main():
     """Do stuff"""
 
