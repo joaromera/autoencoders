@@ -23,8 +23,16 @@ public:
     {
         DBG("[AUTOENCODER] Constructing with " << path);
         mAutoencoder = std::make_unique<fdeep::model>(fdeep::load_model(path));
+
+        mDepth = mAutoencoder->get_input_shapes()[0].depth_.unsafe_get_just();
+        DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
+        DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder->get_output_shapes()[0].depth_.unsafe_get_just());
+
+        mInput = std::vector<float>(mDepth, 0.0f);
+        mTensorShapeDepth = std::make_unique<fdeep::tensor_shape>(mDepth);
+        fdeep::tensors mTensors = {fdeep::tensor(*mTensorShapeDepth, mInput)};
         mPredictionResult = mAutoencoder->predict(mTensors);
-        DBG("[AUTOENCODER] Printing prediction results: " << fdeep::show_tensors(mPredictionResult));
+        DBG("[AUTOENCODER] Prediction results: " << fdeep::show_tensors(mPredictionResult));
     }
 
     Autoencoder() = delete;
@@ -54,15 +62,12 @@ public:
     }
  
 private:
-    const size_t mDepth {441};
-    std::vector<float> mInput = std::vector<float>(mDepth, 1.0f);
-    fdeep::tensor_shape mTensorShapeDepth {441};
-    fdeep::tensors mTensors = {fdeep::tensor(mTensorShapeDepth, mInput)};
-    fdeep::tensors mPredictionResult {};
-
-    std::unique_ptr<fdeep::model> mEncoder;
-    std::unique_ptr<fdeep::model> mDecoder;
     std::unique_ptr<fdeep::model> mAutoencoder;
+    unsigned long mDepth;
+    std::vector<float> mInput;
+    std::unique_ptr<fdeep::tensor_shape> mTensorShapeDepth;
+    fdeep::tensors mTensors;
+    fdeep::tensors mPredictionResult;
 
     double mHopLength {10};
     double mWindowLength {10};
