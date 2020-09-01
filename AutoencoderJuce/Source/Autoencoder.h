@@ -41,7 +41,7 @@ public:
 
     ~Autoencoder()
     {
-        DBG("[AUTOENCODER] Destroying...");	
+        DBG("[AUTOENCODER] Destroying...");
     }
 
     void setHopLength(double newValue)
