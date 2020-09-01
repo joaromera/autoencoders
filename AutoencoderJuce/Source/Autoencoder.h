@@ -19,7 +19,7 @@
 class Autoencoder
 {
 public:
-    Autoencoder(const std::string& path)
+    explicit Autoencoder(const std::string& path)
     {
         DBG("[AUTOENCODER] Constructing with " << path);
         mAutoencoder = std::make_unique<fdeep::model>(fdeep::load_model(path));
@@ -30,7 +30,7 @@ public:
 
         mInput = std::vector<float>(mDepth, 0.0f);
         mTensorShapeDepth = std::make_unique<fdeep::tensor_shape>(mDepth);
-        fdeep::tensors mTensors = {fdeep::tensor(*mTensorShapeDepth, mInput)};
+        mTensors = {fdeep::tensor(*mTensorShapeDepth, mInput)};
         mPredictionResult = mAutoencoder->predict(mTensors);
         DBG("[AUTOENCODER] Prediction results: " << fdeep::show_tensors(mPredictionResult));
     }
