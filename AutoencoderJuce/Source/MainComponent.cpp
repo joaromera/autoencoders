@@ -44,13 +44,13 @@ MainComponent::MainComponent()
 
     juce::StringArray midiInputNames;
 
-    for (auto input : midiInputs) midiInputNames.add (input.name);
+    for (const auto& input : midiInputs) midiInputNames.add (input.name);
 
     midiInputList.addItemList (midiInputNames, 1);
     midiInputList.onChange = [this] { setMidiInput (midiInputList.getSelectedItemIndex()); };
 
     // find the first enabled device and use that by default
-    for (auto input : midiInputs)
+    for (const auto& input : midiInputs)
     {
         if (deviceManager.isMidiInputDeviceEnabled (input.identifier))
         {

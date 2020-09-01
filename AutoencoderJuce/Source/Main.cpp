@@ -14,7 +14,7 @@ class SynthApplication  : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    SynthApplication() {}
+    SynthApplication() = default;
 
     const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
     const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }

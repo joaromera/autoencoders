@@ -63,7 +63,7 @@ public:
  
 private:
     std::unique_ptr<fdeep::model> mAutoencoder;
-    unsigned long mDepth;
+    std::size_t mDepth;
     std::vector<float> mInput;
     std::unique_ptr<fdeep::tensor_shape> mTensorShapeDepth;
     fdeep::tensors mTensors;
