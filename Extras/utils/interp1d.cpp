@@ -2,8 +2,14 @@
 
 #include <algorithm>
 #include <cassert>
+#include <complex>
+#include <exception>
 #include <iostream>
+#include <cmath>
+#include <random>
 #include <vector>
+
+using complexDouble = std::complex<double>;
 
 template<typename T, typename U>
 struct lin_interp1d_first_axis
@@ -124,5 +130,62 @@ std::vector<double> linspace(double start, double stop, unsigned num)
     }
     output.emplace_back(stop);
 
+    return output;
+}
+
+std::vector<std::vector<double>> randomVectorOfDimension(unsigned firstAxis, unsigned secondAxis)
+{
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_real_distribution<> dist1(0,1);
+
+    const double PI = std::acos(-1);
+
+    std::vector<std::vector<double>> output;
+    for (unsigned i = 0; i < firstAxis; ++i)
+    {
+        std::vector<double> current;
+        for (unsigned j = 0; j < secondAxis; ++j)
+        {
+            current.emplace_back(dist1(rng) * 2 * PI);
+        }
+        output.emplace_back(std::move(current));
+    }
+
+    return output;
+}
+
+std::vector<std::vector<complexDouble>>
+inputForIFFT(std::vector<std::vector<double>> prediction, std::vector<std::vector<double>> phase)
+{
+    if (prediction.size() != phase.size())
+        throw std::invalid_argument("Wrong dimesntion");
+
+    if (prediction[0].size() != phase[0].size())
+        throw std::invalid_argument("Wrong dimesntion");
+
+    using namespace std::complex_literals;
+
+    // TODO: check these values
+    const double xMax = 96;
+    const double sClip = -60;
+
+    const unsigned firstAxis = prediction.size();
+    const unsigned secondAxis = prediction[0].size();
+
+    std::vector<std::vector<complexDouble>> output;
+    for (unsigned i = 0; i < firstAxis; ++i)
+    {
+        std::vector<complexDouble> current;
+        for (unsigned j = 0; j < secondAxis; ++j)
+        {
+            const complexDouble expPhase = 1i * phase[i][j];
+            const double power = ((prediction[i][j] * xMax) + sClip) / 10;
+            current.emplace_back(
+                std::sqrt(std::pow(10, power) * std::exp(expPhase))
+            );
+        }
+        output.emplace_back(std::move(current));
+    }
     return output;
 }

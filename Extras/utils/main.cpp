@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hh"
 
+#include "math.h"
 #include "interp1d.hpp"
 
 class Interp1dTestsFixture
@@ -121,4 +122,35 @@ TEST_CASE("Linspace has correct output between 0 and 5 ","[Basic Tests")
     REQUIRE(linspaceResult[2] == 0.50);
     REQUIRE(linspaceResult[3] == 0.75);
     REQUIRE(linspaceResult[4] == 1);
+}
+
+TEST_CASE("randomVectorOfDimension", "[Basic Tests]")
+{
+    const double maxValue = 2 * M_PI;
+    auto randomVec = randomVectorOfDimension(1,2);
+    REQUIRE(randomVec.size() == 1);
+    REQUIRE(randomVec[0].size() == 2);
+    REQUIRE(randomVec[0][0] < maxValue);
+    REQUIRE(randomVec[0][1] < maxValue);
+}
+
+TEST_CASE("Input for IFFT", "[Basic Tests")
+{
+    std::vector<double> fa = {-0.1, 0.2, -0.3, 0.4};
+    std::vector<double> sa = {0.5,- 0.6, 0.7, -0.8};
+
+    std::vector<std::vector<double>> i = {
+        fa,
+        sa
+    };
+
+    auto input = inputForIFFT(i, i);
+
+    for (const auto &vector_c : input)
+    {
+        for (const auto &c : vector_c)
+        {
+            std::cout << c << std::endl;
+        }
+    }
 }
