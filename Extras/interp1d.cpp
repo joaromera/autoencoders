@@ -67,7 +67,7 @@ struct lin_interp1d_first_axis
 
         std::vector<std::vector<U>> y_lo;
         std::vector<std::vector<U>> y_hi;
-        for (int i = 0; i < mY[0].size(); ++i)
+        for (int i = 0; i < lo.size(); ++i)
         {
             y_lo.push_back(mY[lo[i]]);
             y_hi.push_back(mY[hi[i]]);
@@ -77,10 +77,10 @@ struct lin_interp1d_first_axis
         for (int i = 0; i < y_lo.size(); ++i)
         {
             std::vector<U> slopes_inner;
-            for (int j = 0; j < y_lo.size(); ++j)
+            for (int j = 0; j < y_lo[0].size(); ++j)
             {
                 slopes_inner.push_back(
-                        (y_hi[i][j] - y_lo[i][j]) / (x_hi[j] - x_lo[j])
+                        (y_hi[i][j] - y_lo[i][j]) / (x_hi[i] - x_lo[i])
                 );
             }
             slopes.push_back(slopes_inner);
@@ -93,7 +93,7 @@ struct lin_interp1d_first_axis
             for (int j = 0; j < slopes[i].size(); ++j)
             {
                 interp_inner.push_back(
-                    (slopes[i][j] * (xnew[j] - x_lo[j])) + y_lo[j][i]
+                    (slopes[i][j] * (xnew[i] - x_lo[j])) + y_lo[i][j]
                 );
             }
             interpolation.push_back(interp_inner);
@@ -179,4 +179,7 @@ int main()
     assert((interpolation[1] == interpolation[2]));
     assert((interpolation[2] == interpolation[3]));
     assert((interpolation[3] == interpolation[4]));
+
+    auto linspaceFrom0To1 = linspace(0, 1, 10);
+
 }
