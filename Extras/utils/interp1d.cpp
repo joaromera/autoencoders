@@ -1,191 +1,172 @@
-#pragma once
+#define CATCH_CONFIG_MAIN
+#include "catch.hh"
 
-#include <algorithm>
-#include <cassert>
-#include <complex>
-#include <exception>
-#include <iostream>
-#include <cmath>
-#include <random>
-#include <vector>
+#include "math.h"
+#include "interp1d.hpp"
 
-using complexDouble = std::complex<double>;
-
-template<typename T, typename U>
-struct lin_interp1d_first_axis
+class Interp1dTestsFixture
 {
-    lin_interp1d_first_axis(const std::vector<T> &x, const std::vector<std::vector<U>> &y)
-            : mX(x)
-    {
-        std::sort(mX.begin(), mX.end());
+public:
+    std::vector<int> zeroToOne = {0, 1};
+    std::vector<float> oneToFour = {1.f, 2.f, 3.f, 4.f};
+    std::vector<float> fiveToEight = {5.f, 6.f, 7.f, 8.f};
 
-        for (const auto &idx : mX)
-        {
-            mY.emplace_back(y[idx]);
-        }
-    }
+    std::vector<std::vector<float>> y = {
+        oneToFour,
+        fiveToEight
+    };
 
-    std::vector<std::vector<U>> operator()(std::vector<U> xnew)
-    {
-        // Find where in the original data, the values to interpolate would be inserted.
-        std::vector<int> new_indexes;
-        for (const auto &e : xnew)
-        {
-            auto lower = std::lower_bound(mX.begin(), mX.end(), e);
-            if (lower != mX.end())
-            {
-//                std::cout << e
-//                          << " at index "
-//                          << std::distance(mX.begin(), lower)
-//                          << std::endl;
-                new_indexes.emplace_back(std::distance(mX.begin(), lower));
-            }
-            else
-            {
-//                std::cout << e
-//                          << " at index "
-//                          << mX.size()
-//                          << std::endl;
-                new_indexes.emplace_back(mX.size());
-            }
-        }
+    lin_interp1d_first_axis<int, float> zeroToOneAndY {zeroToOne, y};
 
-        // Clip x_new_indices so that they are within the range of
-        // mX indices and at least 1. Removes mis-interpolation
-        // xnew[n] = mX[0]
-        for_each(new_indexes.begin(), new_indexes.end(), [&](auto &e) {
-            int hi = mX.size() - 1;
-            e = std::clamp(e, 1, hi);
-        });
+    std::vector<float> oneToEight = {1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f};
+    std::vector<std::vector<float>> y2 = {
+        oneToEight,
+        oneToEight
+    };
 
-        // Calculate the slope of regions that each x_new value falls in.
-        std::vector<int> lo = new_indexes;
-        for_each(lo.begin(), lo.end(), [](auto &e) {
-            --e;
-        });
-        const std::vector<int> &hi = new_indexes;
-
-        std::vector<T> x_lo;
-        std::vector<T> x_hi;
-        for (int i = 0; i < lo.size(); ++i)
-        {
-            x_lo.push_back(mX[lo[i]]);
-            x_hi.push_back(mX[hi[i]]);
-        }
-
-        std::vector<std::vector<U>> y_lo;
-        std::vector<std::vector<U>> y_hi;
-        for (int i = 0; i < lo.size(); ++i)
-        {
-            y_lo.push_back(mY[lo[i]]);
-            y_hi.push_back(mY[hi[i]]);
-        }
-
-        std::vector<std::vector<U>> slopes;
-        for (int i = 0; i < y_lo.size(); ++i)
-        {
-            std::vector<U> slopes_inner;
-            for (int j = 0; j < y_lo[0].size(); ++j)
-            {
-                slopes_inner.push_back(
-                        (y_hi[i][j] - y_lo[i][j]) / (x_hi[i] - x_lo[i])
-                );
-            }
-            slopes.push_back(slopes_inner);
-        }
-
-        std::vector<std::vector<U>> interpolation;
-        for (int i = 0; i < slopes.size(); ++i)
-        {
-            std::vector<U> interp_inner;
-            for (int j = 0; j < slopes[i].size(); ++j)
-            {
-                interp_inner.push_back(
-                        (slopes[i][j] * (xnew[i] - x_lo[i])) + y_lo[i][j]
-                );
-            }
-            interpolation.push_back(interp_inner);
-        }
-
-        return interpolation;
-    }
-
-    std::vector<T> mX;
-    std::vector<std::vector<U>> mY;
+    lin_interp1d_first_axis<int, float> zeroToOneAndY2 {zeroToOne, y2};
 };
 
-std::vector<double> linspace(double start, double stop, unsigned num)
+TEST_CASE_METHOD(Interp1dTestsFixture, "Interp1dTestsWithXBeingZero", "[construction]")
 {
-    assert(start < stop);
-    assert(num > 0);
-    if (num == 2) return {start, stop};
-
-    num -= 1;
-
-    double delta = (stop - start) / num;
-    std::vector<double> output;
-    for (unsigned step = 0; step < num; ++step)
-    {
-        output.emplace_back(start + (step * delta));
-    }
-    output.emplace_back(stop);
-
-    return output;
+    auto test = lin_interp1d_first_axis<int, float>({0}, y);
+    REQUIRE(test.mY.size() == 1);
+    REQUIRE(test.mY[0] == oneToFour);
 }
 
-std::vector<std::vector<double>> randomVectorOfDimension(unsigned firstAxis, unsigned secondAxis)
+TEST_CASE_METHOD(Interp1dTestsFixture, "Interp1dTestsWithXBeingOne", "[construction]")
 {
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_real_distribution<> dist1(0,1);
-
-    const double PI = std::acos(-1);
-
-    std::vector<std::vector<double>> output;
-    for (unsigned i = 0; i < firstAxis; ++i)
-    {
-        std::vector<double> current;
-        for (unsigned j = 0; j < secondAxis; ++j)
-        {
-            current.emplace_back(dist1(rng) * 2 * PI);
-        }
-        output.emplace_back(std::move(current));
-    }
-
-    return output;
+    auto test = lin_interp1d_first_axis<int, float>({1}, y);
+    REQUIRE(test.mY.size() == 1);
+    REQUIRE(test.mY[0] == fiveToEight);
 }
 
-std::vector<std::vector<complexDouble>>
-inputForIFFT(std::vector<std::vector<double>> prediction, std::vector<std::vector<double>> phase)
+TEST_CASE_METHOD(Interp1dTestsFixture, "Interp1dTestsWithXBeingZeroAndOne", "[construction]")
 {
-    if (prediction.size() != phase.size())
-        throw std::invalid_argument("Wrong dimesntion");
+    REQUIRE(zeroToOneAndY.mY.size() == 2);
+    REQUIRE(zeroToOneAndY.mY[0] == oneToFour);
+    REQUIRE(zeroToOneAndY.mY[1] == fiveToEight);
+}
 
-    if (prediction[0].size() != phase[0].size())
-        throw std::invalid_argument("Wrong dimesntion");
+TEST_CASE_METHOD(Interp1dTestsFixture, "InterpolationWithFour", "[calling]")
+{
+    auto interpolation = zeroToOneAndY({0.25f,0.5f,0.75f,1.f});
+    REQUIRE(interpolation.size() == 4);
+    REQUIRE(interpolation[0].size() == 4);
+    REQUIRE(interpolation[0] == std::vector<float>{2.f, 3.f, 4.f, 5.f});
+    REQUIRE(interpolation[1] == std::vector<float>{3.f, 4.f, 5.f, 6.f});
+    REQUIRE(interpolation[2] == std::vector<float>{4.f, 5.f, 6.f, 7.f});
+    REQUIRE(interpolation[3] == std::vector<float>{5.f, 6.f, 7.f, 8.f});
+}
 
-    using namespace std::complex_literals;
+TEST_CASE_METHOD(Interp1dTestsFixture, "InterpolationWithTwo", "[calling]")
+{
+    auto interpolation = zeroToOneAndY({0.25f, 0.5f});
+    REQUIRE(interpolation.size() == 2);
+    REQUIRE(interpolation[0].size() == 4);
+    REQUIRE(interpolation[0] == std::vector<float>{2.f, 3.f, 4.f, 5.f});
+    REQUIRE(interpolation[1] == std::vector<float>{3.f, 4.f, 5.f, 6.f});
+}
 
-    // TODO: check these values
-    const double xMax = 96;
-    const double sClip = -60;
+TEST_CASE_METHOD(Interp1dTestsFixture, "InterpolationWithTwoAndBiggerYZ", "[construction]")
+{
+    REQUIRE(zeroToOneAndY2.mY.size() == 2);
+    REQUIRE(zeroToOneAndY2.mY[0] == oneToEight);
+    REQUIRE(zeroToOneAndY2.mY[1] == oneToEight);
+}
 
-    const unsigned firstAxis = prediction.size();
-    const unsigned secondAxis = prediction[0].size();
+TEST_CASE_METHOD(Interp1dTestsFixture, "InterpolationWithTwoAndBiggerY", "[calling]")
+{
+    auto interpolation = zeroToOneAndY2({0.1f, 0.2f, 0.3f, 0.4f, 0.5f});
+    REQUIRE(interpolation.size() == 5);
+    REQUIRE(interpolation[0].size() == 8);
+    REQUIRE(interpolation[0] == oneToEight);
+    REQUIRE(interpolation[0] == interpolation[1]);
+    REQUIRE(interpolation[1] == interpolation[2]);
+    REQUIRE(interpolation[2] == interpolation[3]);
+    REQUIRE(interpolation[3] == interpolation[4]);
+}
 
-    std::vector<std::vector<complexDouble>> output;
-    for (unsigned i = 0; i < firstAxis; ++i)
+TEST_CASE("Linspace has correct size when asked for two numbers","[Basic Tests")
+{
+    auto linspaceResult = linspace(0, 1, 2);
+    REQUIRE(linspaceResult.size() == 2);
+}
+
+
+TEST_CASE("Linspace has correct output with arguemnts 0, 1, 2","[Basic Tests")
+{
+    auto linspaceResult = linspace(0, 1, 2);
+    REQUIRE(linspaceResult[0] == 0);
+    REQUIRE(linspaceResult[1] == 1);
+}
+
+TEST_CASE("Linspace has correct size ","[Basic Tests")
+{
+    auto linspaceResult = linspace(0, 1, 10);
+    REQUIRE(linspaceResult.size() == 10);
+}
+
+TEST_CASE("Linspace output has start and stop ","[Basic Tests")
+{
+    auto linspaceResult = linspace(0, 1, 10);
+    REQUIRE(linspaceResult[0] == 0);
+    REQUIRE(linspaceResult[9] == 1);
+}
+
+TEST_CASE("Linspace has correct output between 0 and 5 ","[Basic Tests")
+{
+    auto linspaceResult = linspace(0, 1, 5);
+    REQUIRE(linspaceResult[0] == 0);
+    REQUIRE(linspaceResult[1] == 0.25);
+    REQUIRE(linspaceResult[2] == 0.50);
+    REQUIRE(linspaceResult[3] == 0.75);
+    REQUIRE(linspaceResult[4] == 1);
+}
+
+TEST_CASE("randomVectorOfDimension", "[Basic Tests]")
+{
+    const double maxValue = 2 * M_PI;
+    auto randomVec = randomVectorOfDimension(1,2);
+    REQUIRE(randomVec.size() == 1);
+    REQUIRE(randomVec[0].size() == 2);
+    REQUIRE(randomVec[0][0] < maxValue);
+    REQUIRE(randomVec[0][1] < maxValue);
+}
+
+TEST_CASE("Input for IFFT", "[Basic Tests")
+{
+    std::vector<double> fa = {-0.1, 0.2, -0.3, 0.4};
+    std::vector<double> sa = {0.5,- 0.6, 0.7, -0.8};
+
+    std::vector<std::vector<double>> i = {
+        fa,
+        sa
+    };
+
+    auto input = inputForIFFT(i, i);
+
+//    for (const auto &vector_c : input)
+//    {
+//        for (const auto &c : vector_c)
+//        {
+//            std::cout << c << std::endl;
+//        }
+//    }
+}
+
+TEST_CASE("Input for prediction", "[Calling]")
+{
+    auto test = inputForPrediction<double, double>(12, 5);
+    REQUIRE(test.size() == 60);
+
+    const double maxValue = 2 * M_PI;
+    for (const auto &v : test)
     {
-        std::vector<complexDouble> current;
-        for (unsigned j = 0; j < secondAxis; ++j)
+        REQUIRE(v.size() == 8);
+        for (const auto &e : v)
         {
-            const complexDouble expPhase = 1i * phase[i][j];
-            const double power = ((prediction[i][j] * xMax) + sClip) / 10;
-            current.emplace_back(
-                std::sqrt(std::pow(10, power) * std::exp(expPhase))
-            );
+            REQUIRE(e < maxValue);
         }
-        output.emplace_back(std::move(current));
     }
-    return output;
 }
