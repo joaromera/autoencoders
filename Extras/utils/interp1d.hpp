@@ -9,8 +9,6 @@
 #include <random>
 #include <vector>
 
-using complexDouble = std::complex<double>;
-
 template<typename T, typename U>
 struct lin_interp1d_first_axis
 {
@@ -157,8 +155,9 @@ std::vector<std::vector<T>> randomVectorOfDimension(unsigned firstAxis, unsigned
     return output;
 }
 
-std::vector<std::vector<complexDouble>>
-inputForIFFT(std::vector<std::vector<double>> prediction, std::vector<std::vector<double>> phase)
+template <typename T>
+std::vector<std::vector<std::complex<T>>>
+inputForIFFT(std::vector<std::vector<T>> prediction, std::vector<std::vector<T>> phase)
 {
     if (prediction.size() != phase.size())
         throw std::invalid_argument("Wrong dimesntion");
@@ -175,19 +174,19 @@ inputForIFFT(std::vector<std::vector<double>> prediction, std::vector<std::vecto
     const unsigned firstAxis = prediction.size();
     const unsigned secondAxis = prediction[0].size();
 
-    std::vector<std::vector<complexDouble>> output;
+    std::vector<std::vector<std::complex<T>>> output;
     for (unsigned i = 0; i < firstAxis; ++i)
     {
-        std::vector<complexDouble> current;
+        std::vector<std::complex<T>> current;
         for (unsigned j = 0; j < secondAxis; ++j)
         {
-            const complexDouble expPhase = 1i * phase[i][j];
-            const double power = ((prediction[i][j] * xMax) + sClip) / 10;
+            const std::complex<double> expPhase (0.0, phase[i][j]);
+            const T power = ((prediction[i][j] * xMax) + sClip) / 10;
             current.emplace_back(
                 std::sqrt(std::pow(10, power) * std::exp(expPhase))
             );
         }
-        output.emplace_back(std::move(current));
+        output.emplace_back(current);
     }
     return output;
 }
