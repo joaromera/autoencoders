@@ -1,3 +1,5 @@
+#pragma once
+
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -7,7 +9,7 @@ template<typename T, typename U>
 struct lin_interp1d_first_axis
 {
     lin_interp1d_first_axis(const std::vector<T> &x, const std::vector<std::vector<U>> &y)
-        : mX(x)
+            : mX(x)
     {
         std::sort(mX.begin(), mX.end());
 
@@ -93,7 +95,7 @@ struct lin_interp1d_first_axis
             for (int j = 0; j < slopes[i].size(); ++j)
             {
                 interp_inner.push_back(
-                    (slopes[i][j] * (xnew[i] - x_lo[j])) + y_lo[i][j]
+                        (slopes[i][j] * (xnew[i] - x_lo[i])) + y_lo[i][j]
                 );
             }
             interpolation.push_back(interp_inner);
@@ -112,74 +114,15 @@ std::vector<double> linspace(double start, double stop, unsigned num)
     assert(num > 0);
     if (num == 2) return {start, stop};
 
+    num -= 1;
+
     double delta = (stop - start) / num;
     std::vector<double> output;
-    for (double step = start; step < stop; step += delta)
+    for (unsigned step = 0; step < num; ++step)
     {
-        output.emplace_back(step);
+        output.emplace_back(start + (step * delta));
     }
     output.emplace_back(stop);
 
     return output;
-}
-
-int main()
-{
-    std::vector<int> x = {0, 1};
-    std::vector<std::vector<float>> y = {
-        {1.f, 2.f, 3.f, 4.f},
-        {5.f, 6.f, 7.f, 8.f}
-    };
-
-    // Tests with x = {0}
-    auto test = lin_interp1d_first_axis<int, float>({0}, y);
-    assert((test.mY.size() == 1));
-    assert((test.mY[0] == std::vector<float>{1.f, 2.f, 3.f, 4.f}));
-
-    // Tests with x = {1}
-    test = lin_interp1d_first_axis<int, float>({1}, y);
-    assert((test.mY.size() == 1));
-    assert((test.mY[0] == std::vector<float>{5.f, 6.f, 7.f, 8.f}));
-
-    // Tests with x = {0,1}
-    test = lin_interp1d_first_axis<int, float>(x, y);
-    assert((test.mY.size() == 2));
-    assert((test.mY[0] == std::vector<float>{1.f, 2.f, 3.f, 4.f}));
-    assert((test.mY[1] == std::vector<float>{5.f, 6.f, 7.f, 8.f}));
-
-    auto interpolation = test({0.25f,0.5f,0.75f,1.f});
-    assert((interpolation.size() == 4));
-    assert((interpolation[0].size() == 4));
-    assert((interpolation[0] == std::vector<float>{2.f, 3.f, 4.f, 5.f}));
-    assert((interpolation[1] == std::vector<float>{3.f, 4.f, 5.f, 6.f}));
-    assert((interpolation[2] == std::vector<float>{4.f, 5.f, 6.f, 7.f}));
-    assert((interpolation[3] == std::vector<float>{5.f, 6.f, 7.f, 8.f}));
-
-    interpolation = test({0.25f, 0.5f});
-    assert((interpolation.size() == 2));
-    assert((interpolation[0].size() == 4));
-    assert((interpolation[0] == std::vector<float>{2.f, 3.f, 4.f, 5.f}));
-    assert((interpolation[1] == std::vector<float>{3.f, 4.f, 5.f, 6.f}));
-
-    y = {
-        {1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f},
-        {1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f}
-    };
-
-    test = lin_interp1d_first_axis<int, float>(x, y);
-    assert((test.mY.size() == 2));
-    assert((test.mY[0] == std::vector<float>{1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f}));
-    assert((test.mY[1] == std::vector<float>{1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f}));
-
-    interpolation = test({0.1f, 0.2f, 0.3f, 0.4f, 0.5f});
-    assert((interpolation.size() == 5));
-    assert((interpolation[0].size() == 8));
-    assert((interpolation[0] == std::vector<float>{1.f, 2.f, 3.f, 4.f, 5.f, 6.f, 7.f, 8.f}));
-    assert((interpolation[0] == interpolation[1]));
-    assert((interpolation[1] == interpolation[2]));
-    assert((interpolation[2] == interpolation[3]));
-    assert((interpolation[3] == interpolation[4]));
-
-    auto linspaceFrom0To1 = linspace(0, 1, 10);
-
 }
