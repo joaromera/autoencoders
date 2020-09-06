@@ -89,34 +89,34 @@ TEST_CASE_METHOD(Interp1dTestsFixture, "InterpolationWithTwoAndBiggerY", "[calli
 
 TEST_CASE("Linspace has correct size when asked for two numbers","[Basic Tests")
 {
-    auto linspaceResult = linspace(0, 1, 2);
+    auto linspaceResult = linspace<double>(0, 1, 2);
     REQUIRE(linspaceResult.size() == 2);
 }
 
 
 TEST_CASE("Linspace has correct output with arguemnts 0, 1, 2","[Basic Tests")
 {
-    auto linspaceResult = linspace(0, 1, 2);
+    auto linspaceResult = linspace<double>(0, 1, 2);
     REQUIRE(linspaceResult[0] == 0);
     REQUIRE(linspaceResult[1] == 1);
 }
 
 TEST_CASE("Linspace has correct size ","[Basic Tests")
 {
-    auto linspaceResult = linspace(0, 1, 10);
+    auto linspaceResult = linspace<double>(0, 1, 10);
     REQUIRE(linspaceResult.size() == 10);
 }
 
 TEST_CASE("Linspace output has start and stop ","[Basic Tests")
 {
-    auto linspaceResult = linspace(0, 1, 10);
+    auto linspaceResult = linspace<double>(0, 1, 10);
     REQUIRE(linspaceResult[0] == 0);
     REQUIRE(linspaceResult[9] == 1);
 }
 
 TEST_CASE("Linspace has correct output between 0 and 5 ","[Basic Tests")
 {
-    auto linspaceResult = linspace(0, 1, 5);
+    auto linspaceResult = linspace<double>(0, 1, 5);
     REQUIRE(linspaceResult[0] == 0);
     REQUIRE(linspaceResult[1] == 0.25);
     REQUIRE(linspaceResult[2] == 0.50);
@@ -127,7 +127,7 @@ TEST_CASE("Linspace has correct output between 0 and 5 ","[Basic Tests")
 TEST_CASE("randomVectorOfDimension", "[Basic Tests]")
 {
     const double maxValue = 2 * M_PI;
-    auto randomVec = randomVectorOfDimension(1,2);
+    auto randomVec = randomVectorOfDimension<double>(1,2);
     REQUIRE(randomVec.size() == 1);
     REQUIRE(randomVec[0].size() == 2);
     REQUIRE(randomVec[0][0] < maxValue);

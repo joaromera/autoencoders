@@ -114,7 +114,8 @@ struct lin_interp1d_first_axis
     std::vector<std::vector<U>> mY;
 };
 
-std::vector<double> linspace(double start, double stop, unsigned num)
+template <typename T>
+std::vector<T> linspace(T start, T stop, unsigned num)
 {
     assert(start < stop);
     assert(num > 0);
@@ -123,7 +124,7 @@ std::vector<double> linspace(double start, double stop, unsigned num)
     num -= 1;
 
     double delta = (stop - start) / num;
-    std::vector<double> output;
+    std::vector<T> output;
     for (unsigned step = 0; step < num; ++step)
     {
         output.emplace_back(start + (step * delta));
@@ -133,7 +134,8 @@ std::vector<double> linspace(double start, double stop, unsigned num)
     return output;
 }
 
-std::vector<std::vector<double>> randomVectorOfDimension(unsigned firstAxis, unsigned secondAxis)
+template <typename T>
+std::vector<std::vector<T>> randomVectorOfDimension(unsigned firstAxis, unsigned secondAxis)
 {
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -141,10 +143,10 @@ std::vector<std::vector<double>> randomVectorOfDimension(unsigned firstAxis, uns
 
     const double PI = std::acos(-1);
 
-    std::vector<std::vector<double>> output;
+    std::vector<std::vector<T>> output;
     for (unsigned i = 0; i < firstAxis; ++i)
     {
-        std::vector<double> current;
+        std::vector<T> current;
         for (unsigned j = 0; j < secondAxis; ++j)
         {
             current.emplace_back(dist1(rng) * 2 * PI);
@@ -194,12 +196,12 @@ template <typename T, typename U>
 std::vector<std::vector<T>> inputForPrediction(int N, int T_frames)
 {
     std::vector<std::vector<T>> output;
-    auto z_prev = randomVectorOfDimension(1, 8);
+    auto z_prev = randomVectorOfDimension<U>(1, 8);
     for (int i = 0; i < N; ++i)
     {
-        auto z_rand = randomVectorOfDimension(1, 8);
+        auto z_rand = randomVectorOfDimension<U>(1, 8);
         auto linfit = lin_interp1d_first_axis<T, U>({0, 1}, {z_prev[0], z_rand[0]});
-        auto z_interp = linfit(linspace(0, 1, T_frames));
+        auto z_interp = linfit(linspace<U>(0, 1, T_frames));
         std::copy(z_interp.begin(), z_interp.end(), std::back_inserter(output));
         z_prev = z_rand;
     }
