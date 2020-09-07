@@ -3,6 +3,9 @@
 
 #include "interp1d.hpp"
 #include "fdeep/fdeep.hpp"
+#include "AudioFile.h"
+#include <Eigen/Core>
+#include <unsupported/Eigen/FFT>
 
 class FrugallyDeepIntegration
 {
@@ -62,4 +65,26 @@ TEST_CASE_METHOD(FrugallyDeepIntegration,
     auto transposedForFFT = transpose<std::complex<float>>(inputForIFFTresult);
     REQUIRE(inputForIFFTresult.size() == transposedForFFT[0].size());
     REQUIRE(inputForIFFTresult[0].size() == transposedForFFT.size());
+
+    Eigen::FFT<float> fft;
+    std::vector<float> timeVector;
+    for (const auto &freqVec : inputForIFFTresult)
+    {
+        std::vector<float> current;
+        fft.inv(current, freqVec);
+        timeVector.insert(timeVector.end(), current.begin(), current.end());
+    }
+
+    AudioFile<float> audioFile;
+    audioFile.setAudioBufferSize(1, timeVector.size());
+    audioFile.setBitDepth (24);
+    audioFile.setSampleRate (22050);
+    
+    AudioFile<float>::AudioBuffer buffer;
+    buffer.resize(1);
+    buffer[0].resize(timeVector.size());
+    buffer[0] = timeVector;
+
+    audioFile.setAudioBuffer (buffer);
+    audioFile.save ("./audioFile.wav");
 }
