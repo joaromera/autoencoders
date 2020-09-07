@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hh"
 
-#include "../../Development/Autoencoders/AutoencoderJuce/external/frugally-deep/include/fdeep/fdeep.hpp"
 #include "interp1d.hpp"
+#include "fdeep/fdeep.hpp"
 
 class FrugallyDeepIntegration
 {
@@ -35,7 +35,7 @@ TEST_CASE_METHOD(FrugallyDeepIntegration,
                  "Send prediction results to inputForIFFT",
                  "[Calling]")
 {
-    auto test = inputForPrediction<float, float>(12, 5);
+    auto test = inputForPrediction<float, float>(60, 25);
     fdeep::tensor_shape depth (test[0].size());
 
     std::vector<fdeep::tensors> tensors;
@@ -56,7 +56,10 @@ TEST_CASE_METHOD(FrugallyDeepIntegration,
     );
 
     auto inputForIFFTresult = inputForIFFT<float>(flattenedPredictionResult, phases);
-
     REQUIRE(inputForIFFTresult.size() == predictionResult.size());
     REQUIRE(inputForIFFTresult[0].size() == predictionResult[0][0].depth());
+
+    auto transposedForFFT = transpose<std::complex<float>>(inputForIFFTresult);
+    REQUIRE(inputForIFFTresult.size() == transposedForFFT[0].size());
+    REQUIRE(inputForIFFTresult[0].size() == transposedForFFT.size());
 }

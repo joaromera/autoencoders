@@ -207,3 +207,17 @@ std::vector<std::vector<T>> inputForPrediction(int N, int T_frames)
     return output;
 }
 
+template <typename T>
+std::vector<std::vector<T>> transpose(const std::vector<std::vector<T>> &in)
+{
+    std::vector<std::vector<T>> outTransposed(
+        in[0].size(),
+        std::vector<T>(in.size())
+    );
+
+    for (size_t i = 0; i < in.size(); ++i)
+        for (size_t j = 0; j < in[0].size(); ++j)
+            outTransposed[j][i] = in[i][j];
+
+    return outTransposed;
+}
