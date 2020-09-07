@@ -10,9 +10,7 @@
 class FrugallyDeepIntegration
 {
 public:
-    fdeep::model model = fdeep::load_model(
-        "/Users/jromera/CLionProjects/interp/decoder.h5"
-    );
+    fdeep::model model = fdeep::load_model("decoder.h5");
 };
 
 TEST_CASE_METHOD(FrugallyDeepIntegration, "Integrate with Frugally Deep", "[Calling]")
