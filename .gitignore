@@ -264,3 +264,7 @@ encoder
 autoencoder
 
 logs/
+
+AutoencoderJuce/Builds/CLion/cmake-build-debug/*
+*.h5
+*.wav
