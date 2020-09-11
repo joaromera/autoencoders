@@ -75,14 +75,14 @@ TEST_CASE_METHOD(FrugallyDeepIntegration,
 
     AudioFile<float> audioFile;
     audioFile.setAudioBufferSize(1, timeVector.size());
-    audioFile.setBitDepth (24);
-    audioFile.setSampleRate (22050);
+    audioFile.setBitDepth(24);
+    audioFile.setSampleRate(22050);
     
     AudioFile<float>::AudioBuffer buffer;
     buffer.resize(1);
     buffer[0].resize(timeVector.size());
     buffer[0] = timeVector;
 
-    audioFile.setAudioBuffer (buffer);
-    audioFile.save ("./audioFile.wav");
+    audioFile.setAudioBuffer(buffer);
+    audioFile.save("./audioFile.wav");
 }
