@@ -70,7 +70,7 @@ ipython_config.py
 .DS_Store
 .AppleDouble
 .LSOverride
-
+.DS_Store
 # Icon must end with two \r
 Icon
 
@@ -235,7 +235,6 @@ xcuserdata/
 *.xccheckout
 
 ## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
-build/
 DerivedData/
 *.moved-aside
 *.pbxuser
@@ -269,3 +268,5 @@ AutoencoderJuce/Builds/CLion/cmake-build-debug/*
 *.h5
 *.wav
 .vscode
+!AutoencoderJuce/external/alglib/build/
+!AutoencoderJuce/external/alglib/build/libalglib.a
