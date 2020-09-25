@@ -584,13 +584,15 @@
 					"../../external/frugally-deep/include",
 					"../../external/eigen",
 					"../../external/FunctionalPlus/include",
-					"../../external/json//include",
+					"../../external/json/include",
+					"../../external/alglib/src",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/";
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
 				USE_HEADERMAP = NO;
@@ -649,7 +651,8 @@
 					"../../external/frugally-deep/include",
 					"../../external/eigen",
 					"../../external/FunctionalPlus/include",
-					"../../external/json//include",
+					"../../external/json/include",
+					"../../external/alglib/src",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -657,6 +660,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/";
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
 				USE_HEADERMAP = NO;

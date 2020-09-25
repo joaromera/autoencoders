@@ -15,6 +15,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "fasttransforms.h"
 
 class Autoencoder
 {

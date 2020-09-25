@@ -3019,7 +3019,8 @@ include_directories (
     "../../external/frugally-deep/include"
     "../../external/eigen"
     "../../external/FunctionalPlus/include"
-    "../../external/json//include"
+    "../../external/json/include"
+    "../../external/alglib/src"
     ${ALSA_INCLUDE_DIRS}
     ${FREETYPE2_INCLUDE_DIRS}
     ${LIBCURL_INCLUDE_DIRS}
@@ -3032,6 +3033,9 @@ find_library (DL dl
 )
 
 find_library (PTHREAD pthread
+)
+
+find_library (ALGLIB alglib
 )
 
 set_target_properties (APP PROPERTIES
@@ -3078,9 +3082,11 @@ target_compile_definitions (APP PRIVATE
 target_link_libraries (APP PRIVATE
     
     -fvisibility=hidden
+    -L${PROJECT_DIR}../../../external/alglib/build/
     ${RT}
     ${DL}
     ${PTHREAD}
+    ${ALGLIB}
     ${ALSA_LIBRARIES}
     ${FREETYPE2_LIBRARIES}
     ${LIBCURL_LIBRARIES}
@@ -3105,7 +3111,8 @@ include_directories (
     "../../external/frugally-deep/include"
     "../../external/eigen"
     "../../external/FunctionalPlus/include"
-    "../../external/json//include"
+    "../../external/json/include"
+    "../../external/alglib/src"
     ${ALSA_INCLUDE_DIRS}
     ${FREETYPE2_INCLUDE_DIRS}
     ${LIBCURL_INCLUDE_DIRS}
@@ -3118,6 +3125,9 @@ find_library (DL dl
 )
 
 find_library (PTHREAD pthread
+)
+
+find_library (ALGLIB alglib
 )
 
 set_target_properties (APP PROPERTIES
@@ -3163,9 +3173,11 @@ target_compile_definitions (APP PRIVATE
 target_link_libraries (APP PRIVATE
     
     -fvisibility=hidden
+    -L${PROJECT_DIR}../../../external/alglib/build/
     ${RT}
     ${DL}
     ${PTHREAD}
+    ${ALGLIB}
     ${ALSA_LIBRARIES}
     ${FREETYPE2_LIBRARIES}
     ${LIBCURL_LIBRARIES}
@@ -6183,7 +6195,8 @@ target_include_directories (APP PRIVATE
     "../../external/frugally-deep/include"
     "../../external/eigen"
     "../../external/FunctionalPlus/include"
-    "../../external/json//include"
+    "../../external/json/include"
+    "../../external/alglib/src"
 )
 
 target_compile_definitions (APP PRIVATE
@@ -6249,6 +6262,8 @@ set_target_properties (APP PROPERTIES
 )
 
 target_link_libraries (APP PRIVATE
+    "-lalglib"
+    "-L${PROJECT_DIR}../../../external/alglib/build/"
     "-framework Accelerate"
     "-framework AudioToolbox"
     "-framework Carbon"
@@ -6281,7 +6296,8 @@ target_include_directories (APP PRIVATE
     "../../external/frugally-deep/include"
     "../../external/eigen"
     "../../external/FunctionalPlus/include"
-    "../../external/json//include"
+    "../../external/json/include"
+    "../../external/alglib/src"
 )
 
 target_compile_definitions (APP PRIVATE
@@ -6348,6 +6364,8 @@ set_target_properties (APP PROPERTIES
 )
 
 target_link_libraries (APP PRIVATE
+    "-lalglib"
+    "-L${PROJECT_DIR}../../../external/alglib/build/"
     "-framework Accelerate"
     "-framework AudioToolbox"
     "-framework Carbon"
