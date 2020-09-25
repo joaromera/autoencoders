@@ -592,7 +592,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/";
+				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/osx/";
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
 				USE_HEADERMAP = NO;
@@ -660,7 +660,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/";
+				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/osx/";
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
 				USE_HEADERMAP = NO;

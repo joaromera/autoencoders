@@ -3082,7 +3082,7 @@ target_compile_definitions (APP PRIVATE
 target_link_libraries (APP PRIVATE
     
     -fvisibility=hidden
-    -L${PROJECT_DIR}../../../external/alglib/build/
+    -L${PROJECT_DIR}../../../external/alglib/build/linux/
     ${RT}
     ${DL}
     ${PTHREAD}
@@ -3173,7 +3173,7 @@ target_compile_definitions (APP PRIVATE
 target_link_libraries (APP PRIVATE
     
     -fvisibility=hidden
-    -L${PROJECT_DIR}../../../external/alglib/build/
+    -L${PROJECT_DIR}../../../external/alglib/build/linux/
     ${RT}
     ${DL}
     ${PTHREAD}
@@ -6263,7 +6263,7 @@ set_target_properties (APP PROPERTIES
 
 target_link_libraries (APP PRIVATE
     "-lalglib"
-    "-L${PROJECT_DIR}../../../external/alglib/build/"
+    "-L${PROJECT_DIR}../../../external/alglib/build/osx/"
     "-framework Accelerate"
     "-framework AudioToolbox"
     "-framework Carbon"
@@ -6365,7 +6365,7 @@ set_target_properties (APP PROPERTIES
 
 target_link_libraries (APP PRIVATE
     "-lalglib"
-    "-L${PROJECT_DIR}../../../external/alglib/build/"
+    "-L${PROJECT_DIR}../../../external/alglib/build/osx/"
     "-framework Accelerate"
     "-framework AudioToolbox"
     "-framework Carbon"
