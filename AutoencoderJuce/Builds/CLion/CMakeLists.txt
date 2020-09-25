@@ -3035,7 +3035,7 @@ find_library (DL dl
 find_library (PTHREAD pthread
 )
 
-find_library (ALGLIB alglib
+find_library (:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A :${PROJECT_DIR}../../../external/alglib/build/linux/libalglib.a
 )
 
 set_target_properties (APP PROPERTIES
@@ -3086,7 +3086,7 @@ target_link_libraries (APP PRIVATE
     ${RT}
     ${DL}
     ${PTHREAD}
-    ${ALGLIB}
+    ${:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A}
     ${ALSA_LIBRARIES}
     ${FREETYPE2_LIBRARIES}
     ${LIBCURL_LIBRARIES}
@@ -3127,7 +3127,7 @@ find_library (DL dl
 find_library (PTHREAD pthread
 )
 
-find_library (ALGLIB alglib
+find_library (:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A :${PROJECT_DIR}../../../external/alglib/build/linux/libalglib.a
 )
 
 set_target_properties (APP PROPERTIES
@@ -3177,7 +3177,7 @@ target_link_libraries (APP PRIVATE
     ${RT}
     ${DL}
     ${PTHREAD}
-    ${ALGLIB}
+    ${:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A}
     ${ALSA_LIBRARIES}
     ${FREETYPE2_LIBRARIES}
     ${LIBCURL_LIBRARIES}
