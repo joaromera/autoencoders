@@ -36,7 +36,6 @@ public:
         DBG("[AUTOENCODER] Prediction results: " << fdeep::show_tensors(mPredictionResult));
 
         ca.setlength(win_length);
-        calculate();
     }
 
     Autoencoder() = delete;
@@ -62,14 +61,12 @@ public:
 
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
     {
-        if (!ready) return;
-
+        calculate();
         bufferToFill.buffer->copyFrom(0, 0, &mAudio[index], bufferToFill.numSamples);
         bufferToFill.buffer->copyFrom(1, 0, &mAudio[index], bufferToFill.numSamples);
         memset(&mAudio[index], 0 , bufferToFill.numSamples * sizeof(float));
         index += bufferToFill.numSamples;
         index &= mask;
-        calculate();
     }
 
     void calculate()
@@ -107,7 +104,6 @@ public:
         }
         idx_proc += ((N-1) * hop_length) + win_length;
         idx_proc &= mask;
-        ready = true;
     }
  
 private:
@@ -137,7 +133,6 @@ private:
     std::vector<float> Z = std::vector<float>(8, 0.0f);
     double mHopLength {10};
     double mWindowLength {10};
-    bool ready = false;
 
     juce::Random random{};
 };
