@@ -66,8 +66,8 @@ public:
 
         bufferToFill.buffer->copyFrom(0, 0, &mAudio[index], bufferToFill.numSamples);
         bufferToFill.buffer->copyFrom(1, 0, &mAudio[index], bufferToFill.numSamples);
+        memset(&mAudio[index], 0 , bufferToFill.numSamples * sizeof(float));
         index += bufferToFill.numSamples;
-        memset(&mAudio[index - bufferToFill.numSamples], 0 , bufferToFill.numSamples * sizeof(float));
         index &= mask;
         calculate();
     }
@@ -105,7 +105,7 @@ public:
                 mAudio[idx] += audio_m[i];
             }
         }
-        idx_proc += ((N-1) * hop_length);
+        idx_proc += ((N-1) * hop_length) + win_length;
         idx_proc &= mask;
         ready = true;
     }
