@@ -64,21 +64,12 @@ public:
     {
         if (!ready) return;
 
-        for (size_t i = 0; i < bufferToFill.numSamples; ++i)
-        {
-            bufferToFill.buffer->setSample(0, i, mAudio[index]);
-            bufferToFill.buffer->setSample(1, i, mAudio[index]);
-            mAudio[index] = 0;
-            ++index;
-            index &= mask;
-        }
-
-//        ++three;
-//        if (three == 3)
-//        {
-//            three = 0;
-            calculate();
-//        }
+        bufferToFill.buffer->copyFrom(0, 0, &mAudio[index], bufferToFill.numSamples);
+        bufferToFill.buffer->copyFrom(1, 0, &mAudio[index], bufferToFill.numSamples);
+        index += bufferToFill.numSamples;
+        memset(&mAudio[index - bufferToFill.numSamples], 0 , bufferToFill.numSamples * sizeof(float));
+        index &= mask;
+        calculate();
     }
 
     void calculate()
@@ -105,16 +96,16 @@ public:
 
             alglib::fftr1dinv(ca, audio_m);
 
-            for (int i = 0; i < win_length; i++)
+            for (int i = 0; i < win_length; ++i)
             {
-                const double multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
+                const float multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
                 audio_m[i] = multiplier * audio_m[i];
                 int idx = idx_proc + (n * hop_length) + i;
                 idx &= mask;
                 mAudio[idx] += audio_m[i];
             }
         }
-        idx_proc += ((N-1) * hop_length) + win_length;
+        idx_proc += ((N-1) * hop_length);
         idx_proc &= mask;
         ready = true;
     }
@@ -132,14 +123,13 @@ private:
     const double sClip = -60;
     const unsigned win_length = 880;
     const unsigned rfft_size = (win_length / 2) + 1;
-    const unsigned N = 1;
+    const unsigned N = 2;
     const unsigned hop_length_ms = 10;
     const unsigned sr = 22050;
     const unsigned hop_length = ((float) hop_length_ms / 1000) * sr;
 
     alglib::complex_1d_array ca;
     alglib::real_1d_array audio_m;
-    int three = 0;
     const int mask = 1023;
     int index = 0;
     int idx_proc = 0;
