@@ -62,9 +62,40 @@ public:
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
     {
         calculate();
-        bufferToFill.buffer->copyFrom(0, 0, &mAudio[index], bufferToFill.numSamples);
-        bufferToFill.buffer->copyFrom(1, 0, &mAudio[index], bufferToFill.numSamples);
-        memset(&mAudio[index], 0 , bufferToFill.numSamples * sizeof(float));
+
+        // Sine wave test
+        if (mHopLength < 50)
+        {
+            if (m_time >= std::numeric_limits<float>::max()) {
+                m_time = 0.0;
+            }
+
+            DBG("SAMPLES " << bufferToFill.numSamples);
+//        float* const buffer_l = bufferToFill.buffer->getWritePointer(0);
+//        float* const buffer_r = bufferToFill.buffer->getWritePointer(1);
+
+            for (int sample = 0; sample < bufferToFill.numSamples; ++sample) {
+                float value = m_amplitude * std::sin((2 * PI * m_frequency * m_time) + m_phase);
+                mAudio[sample] = value;
+                m_time += m_deltaTime;
+            }
+
+            for (int sample = 0; sample < bufferToFill.numSamples; ++sample)
+            {
+                bufferToFill.buffer->setSample(0, sample, mAudio[sample]);
+                bufferToFill.buffer->setSample(1, sample, mAudio[sample]);
+            }
+        }
+        else
+        {
+            for (int sample = 0; sample < bufferToFill.numSamples; ++sample)
+            {
+                bufferToFill.buffer->setSample(0, sample, mAudio[sample]);
+                bufferToFill.buffer->setSample(1, sample, mAudio[sample]);
+                mAudio[sample] = 0;
+            }
+        }
+
         index += bufferToFill.numSamples;
         index &= mask;
     }
@@ -97,13 +128,13 @@ public:
             {
                 const float multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
                 audio_m[i] = multiplier * audio_m[i];
-                int idx = idx_proc + (n * hop_length) + i;
+                int idx = idx_proc + i;
                 idx &= mask;
                 mAudio[idx] += audio_m[i];
             }
+            idx_proc += hop_length;
+            idx_proc &= mask;
         }
-        idx_proc += ((N-1) * hop_length) + win_length;
-        idx_proc &= mask;
     }
  
 private:
@@ -119,7 +150,7 @@ private:
     const double sClip = -60;
     const unsigned win_length = 880;
     const unsigned rfft_size = (win_length / 2) + 1;
-    const unsigned N = 2;
+    const unsigned N = 1;
     const unsigned hop_length_ms = 10;
     const unsigned sr = 22050;
     const unsigned hop_length = ((float) hop_length_ms / 1000) * sr;
@@ -135,4 +166,11 @@ private:
     double mWindowLength {10};
 
     juce::Random random{};
+
+    // sine wave test
+    float m_amplitude = 0.8;
+    float m_frequency = 1024;
+    float m_phase = 0.0;
+    float m_time = 0.0;
+    float m_deltaTime = 1.0 / 44100;
 };

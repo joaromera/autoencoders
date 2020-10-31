@@ -43,18 +43,19 @@ private:
     juce::TextButton openButton;
     juce::Slider hopLengthSlider;
     juce::Slider windowLengthSlider;
+    juce::AudioDeviceSelectorComponent adsc;
 
     //==============================================================================
     // from handling midi events
-    juce::AudioDeviceManager deviceManager;           // [1]
+//    juce::AudioDeviceManager deviceManager;           // [1]
     juce::ComboBox midiInputList;                     // [2]
     juce::Label midiInputListLabel;
     int lastInputIndex = 0;                           // [3]
     bool isAddingFromMidiInput = false;               // [4]
- 
+
     juce::TextEditor midiMessagesBox;
     double startTime;
-    
+
     // This is used to dispach an incoming message to the message thread
     class IncomingMessageCallback   : public juce::CallbackMessage
     {
@@ -73,7 +74,7 @@ private:
         juce::MidiMessage message;
         juce::String source;
     };
-    
+
     static juce::String getMidiMessageDescription (const juce::MidiMessage& m)
     {
         if (m.isNoteOn())           return "Note on "          + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3);

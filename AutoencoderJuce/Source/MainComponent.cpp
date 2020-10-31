@@ -2,8 +2,12 @@
 
 //==============================================================================
 MainComponent::MainComponent()
-    : startTime (juce::Time::getMillisecondCounterHiRes() * 0.001)
+    : adsc(deviceManager, 2, 2, 2, 2, false, false, false, false)
+    , startTime (juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
+    addAndMakeVisible(adsc);
+    adsc.setBounds(300, 25, 300, 300);
+
     // Open button
     openButton.setButtonText ("Open...");
     openButton.onClick = [this] { openButtonClicked(); };
@@ -61,7 +65,7 @@ MainComponent::MainComponent()
 
     // if no enabled devices were found just use the first one in the list
     if (midiInputList.getSelectedId() == 0) setMidiInput (0);
-    
+
     addAndMakeVisible (midiMessagesBox);
     midiMessagesBox.setMultiLine (true);
     midiMessagesBox.setReturnKeyStartsNewLine (true);
@@ -93,37 +97,18 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
-    // This shuts down the audio device and clears the audio source.
     shutdownAudio();
 }
 
 //==============================================================================
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
-    // This function will be called when the audio device is started, or when
-    // its settings (i.e. sample rate, block size, etc) are changed.
-
-    // You can use this function to initialise any resources you might need,
-    // but be careful - it will be called on the audio thread, not the GUI thread.
-
-    auto deviceSetup = deviceManager.getAudioDeviceSetup();
-    deviceSetup.sampleRate = 22050;
-    deviceSetup.bufferSize = 1024;
-
-    deviceManager.setAudioDeviceSetup(deviceSetup, true);
-    // For more details, see the help for AudioProcessor::prepareToPlay()
     DBG("[MAINCOMPONENT] Sample rate " << sampleRate);
     DBG("[MAINCOMPONENT] Buffer Size " << samplesPerBlockExpected);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
-    // Your audio-processing code goes here!
-
-    // For more details, see the help for AudioProcessor::getNextAudioBlock()
-
-    // Right now we are not producing any data, in which case we need to clear the buffer
-    // (to prevent the output of random noise)
 //    bufferToFill.clearActiveBufferRegion();
 
     if (mAutoencoder) mAutoencoder->getNextAudioBlock(bufferToFill);
