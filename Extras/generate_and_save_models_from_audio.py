@@ -44,8 +44,8 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
     sr = 22050
     path = filename
 
-    hop_length = hop if hop else int(hop_length_ms/1000*sr)
-    win_length = win if win else hop_length*4
+    hop_length = hop or int(hop_length_ms/1000*sr)
+    win_length = win or hop_length*4
 
     X = []
     y = []
