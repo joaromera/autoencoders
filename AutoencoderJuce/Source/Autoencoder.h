@@ -104,10 +104,7 @@ public:
     {
         for (unsigned n = 0; n < N; ++n)
         {
-            for (int i = 0; i < 8; ++i)
-            {
-                Z[i] = random.nextFloat();
-            }
+            for (int i = 0; i < 8; ++i) Z[i] = random.nextFloat();
 
             const fdeep::tensor_shape depth (Z.size());
             const fdeep::tensors tensors = { fdeep::tensor(depth, Z) };
