@@ -3,7 +3,7 @@
 import argparse
 
 
-def make_autoencoder(filename, epochs=1, hop=None):
+def make_autoencoder(filename, epochs=1, hop=None, win=None):
     # Utils
     from glob import glob
     import tqdm
@@ -45,7 +45,7 @@ def make_autoencoder(filename, epochs=1, hop=None):
     path = filename
 
     hop_length = hop if hop else int(hop_length_ms/1000*sr)
-    win_length = hop_length*4
+    win_length = win if win else hop_length*4
 
     X = []
     y = []
@@ -133,9 +133,10 @@ def main():
     parser = argparse.ArgumentParser(description='Create a simple autoencoder, train it with some input wave file and output the saved models')
     parser.add_argument('-a', '--audio', help="WAVE file to build upon the autoencoder", required=True)
     parser.add_argument('-e', '--epochs', help="Number of epochs for fitting", required=False)
-    parser.add_argument('-h', '--hop', help="Size of hop length in samples", required=False)
+    parser.add_argument('-j', '--hop', help="Size of hop length in samples", required=False)
+    parser.add_argument('-w', '--win', help="Window length in samples", required=False)
     args = parser.parse_args()
-    make_autoencoder(args.audio, int(args.epochs), int(args.hop))
+    make_autoencoder(args.audio, int(args.epochs), int(args.hop), int(args.win))
 
 
 if __name__ == "__main__":
