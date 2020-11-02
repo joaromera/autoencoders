@@ -36,6 +36,7 @@ public:
         DBG("[AUTOENCODER] Prediction results: " << fdeep::show_tensors(mPredictionResult));
 
         ca.setlength(win_length);
+        audio_m.setlength(win_length);
     }
 
     Autoencoder() = delete;
@@ -70,7 +71,6 @@ public:
                 m_time = 0.0;
             }
 
-            DBG("SAMPLES " << bufferToFill.numSamples);
 //        float* const buffer_l = bufferToFill.buffer->getWritePointer(0);
 //        float* const buffer_r = bufferToFill.buffer->getWritePointer(1);
 
@@ -90,9 +90,9 @@ public:
         {
             for (int sample = 0; sample < bufferToFill.numSamples; ++sample)
             {
-                bufferToFill.buffer->setSample(0, sample, mAudio[sample]);
-                bufferToFill.buffer->setSample(1, sample, mAudio[sample]);
-                mAudio[sample] = 0;
+                bufferToFill.buffer->setSample(0, sample, mAudio[index + sample]);
+                bufferToFill.buffer->setSample(1, sample, mAudio[index + sample]);
+                mAudio[index + sample] = 0;
             }
         }
 
@@ -104,15 +104,15 @@ public:
     {
         for (unsigned n = 0; n < N; ++n)
         {
-            for (int i = 0; i < 8; ++i) Z[i] = random.nextFloat();
+//            for (int i = 0; i < 8; ++i) Z[i] = random.nextFloat();
 
             const fdeep::tensor_shape depth (Z.size());
             const fdeep::tensors tensors = { fdeep::tensor(depth, Z) };
-            const auto Y_predict = mAutoencoder->predict(tensors);
+            const auto Y_predict = mAutoencoder->predict(tensors)[0].as_vector();
 
             for (unsigned i = 0; i < rfft_size; ++i)
             {
-                const float power = ((Y_predict[0].as_vector()->operator[](i) * xMax) + sClip) / 10;
+                const float power = ((Y_predict->operator[](i) * xMax) + sClip) / 10;
                 const float y_aux = std::sqrt(std::pow(10, power));
                 const float phase = random.nextFloat() * 2 * PI;
                 ca[i].x = y_aux * std::cos(phase);
@@ -145,28 +145,31 @@ private:
     const double PI = std::acos(-1);
     const double xMax = 96;
     const double sClip = -60;
-    const unsigned win_length = 880;
+//    const unsigned win_length = 880;
+//    const unsigned rfft_size = (win_length / 2) + 1;
+    const unsigned win_length = 2048;
     const unsigned rfft_size = (win_length / 2) + 1;
     const unsigned N = 1;
     const unsigned hop_length_ms = 10;
     const unsigned sr = 22050;
-    const unsigned hop_length = ((float) hop_length_ms / 1000) * sr;
+//    const unsigned hop_length = ((float) hop_length_ms / 1000) * sr;
+    const unsigned hop_length = 512;
 
     alglib::complex_1d_array ca;
     alglib::real_1d_array audio_m;
-    const int mask = 1023;
+    const int mask = win_length - 1;
     int index = 0;
     int idx_proc = 0;
-    std::vector<float> mAudio = std::vector<float>(1024, 0.0f);
-    std::vector<float> Z = std::vector<float>(8, 0.0f);
+    std::vector<float> mAudio = std::vector<float>(win_length, 0.0f);
+    std::vector<float> Z = std::vector<float>(8, .8f);
     double mHopLength {10};
     double mWindowLength {10};
 
     juce::Random random{};
 
     // sine wave test
-    float m_amplitude = 0.8;
-    float m_frequency = 1024;
+    float m_amplitude = 0.01;
+    float m_frequency = 512;
     float m_phase = 0.0;
     float m_time = 0.0;
     float m_deltaTime = 1.0 / 44100;

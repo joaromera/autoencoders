@@ -105,6 +105,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 {
     DBG("[MAINCOMPONENT] Sample rate " << sampleRate);
     DBG("[MAINCOMPONENT] Buffer Size " << samplesPerBlockExpected);
+    //auto db = deviceManager.getAudioDeviceSetup();
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
