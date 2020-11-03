@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import sys
+sys.path.append("../AutoencoderJuce/external/frugally-deep/keras_export/")
 
+import convert_model
+
+# importlib.import_module(
+#     "../AutoencoderJuce/external/frugally_deep/keras_export/convert_model.py"
+# )
 
 def make_autoencoder(filename, epochs=1, hop=None, win=None):
     # Utils
@@ -125,7 +132,7 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
     decoder.save('decoder')
     autoencoder.save('autoencoder')
 
-    print("\n\nRemember to convert your models with the convert_model.py in Frugally Deep's keras_export folder.\n\n")
+    print("\n\nModel exported to files 'encoder', 'decoder', and 'autoencoder'\n\n")
 
 def main():
     """Do stuff"""
@@ -135,8 +142,21 @@ def main():
     parser.add_argument('-e', '--epochs', help="Number of epochs for fitting", required=False)
     parser.add_argument('-j', '--hop', help="Size of hop length in samples", required=False)
     parser.add_argument('-w', '--win', help="Window length in samples", required=False)
+    parser.add_argument('-m', '--model_only', help="Don't convert output model to h5 using Frugally Deep's script", required=False, action='store_true')
     args = parser.parse_args()
-    make_autoencoder(args.audio, int(args.epochs), int(args.hop), int(args.win))
+
+    epochs = int(args.epochs) if args.epochs else None
+    hop_length = int(args.hop) if args.hop else None
+    win_length = int(args.win) if args.win else None
+
+    make_autoencoder(args.audio, epochs, hop_length, win_length)
+
+    if not args.model_only:
+        print("\n\nDecoder model will now be converted to H5 using Frugally Deep's script'\n\n")
+        convert_model.convert("./decoder", "decoder.h5", True)
+        print("\n\nDONE. You can now load 'decoder.h5' into the application\n\n")
+    else:
+        print("\n\nDon't forget to convert your models to H5 using Frugally Deep's scripts before using with the application\n\n")
 
 
 if __name__ == "__main__":
