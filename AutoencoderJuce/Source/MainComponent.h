@@ -41,8 +41,8 @@ private:
     juce::dsp::FFT mFFT {512};
     std::unique_ptr<Autoencoder> mAutoencoder;
     juce::TextButton openButton;
-    juce::Slider hopLengthSlider;
-    juce::Slider windowLengthSlider;
+    juce::Slider xMaxSlider;
+    juce::Slider sClipSlider;
     juce::AudioDeviceSelectorComponent adsc;
 
     //==============================================================================

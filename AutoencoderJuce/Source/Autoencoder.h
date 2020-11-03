@@ -47,16 +47,16 @@ public:
         DBG("[AUTOENCODER] Destroying...");
     }
 
-    void setHopLength(double newValue)
+    void setXMax(double newValue)
     {
         DBG("[AUTOENCODER] Hop Length: " << newValue);
-        mHopLength = newValue;
+        xMax = newValue;
     }
 
-    void setWindowLength(double newValue)
+    void setSClip(double newValue)
     {
         DBG("[AUTOENCODER] Window Length: " << newValue);
-        mWindowLength = newValue;
+        sClip = newValue;
     }
 
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
@@ -70,7 +70,7 @@ public:
         calculate();
 
         // Sine wave test
-        if (mHopLength < 50)
+        if (false)
         {
             if (m_time >= std::numeric_limits<float>::max()) {
                 m_time = 0.0;
@@ -120,9 +120,8 @@ public:
         for (int i = 0; i < win_length; ++i)
         {
             const float multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
-            audio_m[i] = multiplier * audio_m[i];
-            int idx = idx_proc + i;
-            idx &= mask;
+            audio_m[i] *= multiplier;
+            const int idx = (idx_proc + i) & mask;
             mAudio[idx] += audio_m[i];
         }
 
@@ -137,15 +136,12 @@ private:
     std::vector<float> mInput;
     const fdeep::tensor_shape mTensorShapeDepth;
     fdeep::tensors mTensors;
-    std::vector<float> mPredictionResult;
 
     const double PI = std::acos(-1);
-    const double xMax = 96;
-    const double sClip = -60;
+    double xMax = 96;
+    double sClip = -60;
     const unsigned win_length = 2048;
     const unsigned rfft_size = (win_length / 2) + 1;
-    const unsigned N = 1;
-    const unsigned hop_length_ms = 10;
     const unsigned sr = 22050;
     const unsigned hop_length = 512;
 
@@ -155,10 +151,6 @@ private:
     int index = 0;
     int idx_proc = 0;
     std::vector<float> mAudio = std::vector<float>(win_length, 0.0f);
-//    std::vector<float> Z = std::vector<float>(8, .8f);
-    std::vector<float> Z = {1,0,0,0,1,0,0,0};
-    double mHopLength {10};
-    double mWindowLength {10};
 
     juce::Random random{};
 

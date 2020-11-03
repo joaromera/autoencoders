@@ -13,33 +13,33 @@ MainComponent::MainComponent()
     openButton.onClick = [this] { openButtonClicked(); };
     addAndMakeVisible (&openButton);
     
-    // Hop Length Slider
-    hopLengthSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    hopLengthSlider.setRange(0,100,1);
-    hopLengthSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    hopLengthSlider.setPopupDisplayEnabled(true, false, this);
-    hopLengthSlider.setTextValueSuffix(" Hop Length");
-    hopLengthSlider.setValue(1.0);
-    hopLengthSlider.onValueChange = [this] {
-        DBG("[MAINCOMPONENT] HopLengthSlider: new value " << hopLengthSlider.getValue());
+    // X Max Slider
+    xMaxSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    xMaxSlider.setRange(0, 100, 1);
+    xMaxSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+    xMaxSlider.setPopupDisplayEnabled(true, false, this);
+    xMaxSlider.setTextValueSuffix(" xMax value");
+    xMaxSlider.setValue(90.0);
+    xMaxSlider.onValueChange = [this] {
+        DBG("[MAINCOMPONENT] xMaxSlider: new value " << xMaxSlider.getValue());
         if (mAutoencoder)
-            mAutoencoder->setHopLength(hopLengthSlider.getValue());
+            mAutoencoder->setXMax(xMaxSlider.getValue());
     };
-    addAndMakeVisible (&hopLengthSlider);
+    addAndMakeVisible (&xMaxSlider);
     
-    // Window Length Slider
-    windowLengthSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    windowLengthSlider.setRange(0,100,1);
-    windowLengthSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    windowLengthSlider.setPopupDisplayEnabled(true, false, this);
-    windowLengthSlider.setTextValueSuffix(" Window Length");
-    windowLengthSlider.setValue(1.0);
-    windowLengthSlider.onValueChange = [this] {
-        DBG("[MAINCOMPONENT] WindowLengthSlider: new value " << windowLengthSlider.getValue());
+    // S Clip Slider
+    sClipSlider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+    sClipSlider.setRange(-100, 0, 1);
+    sClipSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
+    sClipSlider.setPopupDisplayEnabled(true, false, this);
+    sClipSlider.setTextValueSuffix(" sClip value");
+    sClipSlider.setValue(-60.0);
+    sClipSlider.onValueChange = [this] {
+        DBG("[MAINCOMPONENT] sClipSlider: new value " << sClipSlider.getValue());
         if (mAutoencoder)
-            mAutoencoder->setWindowLength(windowLengthSlider.getValue());
+            mAutoencoder->setSClip(sClipSlider.getValue());
     };
-    addAndMakeVisible (&windowLengthSlider);
+    addAndMakeVisible (&sClipSlider);
     
     // MIDI INPUT
     addAndMakeVisible (midiInputList);
@@ -135,8 +135,8 @@ void MainComponent::resized()
     // If you add any child components, this is where you should
     // update their positions.
     openButton.setBounds(10, 10, getWidth() / 3, 20);
-    hopLengthSlider.setBounds(0, 30, (getWidth() - 20) / 4, (getWidth() - 20) / 4);
-    windowLengthSlider.setBounds((getWidth() - 20) / 4, 30, (getWidth() - 20) / 4, (getWidth() - 20) / 4);
+    xMaxSlider.setBounds(0, 30, (getWidth() - 20) / 4, (getWidth() - 20) / 4);
+    sClipSlider.setBounds((getWidth() - 20) / 4, 30, (getWidth() - 20) / 4, (getWidth() - 20) / 4);
     
     auto area = getLocalBounds();
 
