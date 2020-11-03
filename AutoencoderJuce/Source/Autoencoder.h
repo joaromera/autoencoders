@@ -21,20 +21,15 @@ class Autoencoder
 {
 public:
     explicit Autoencoder(const std::string& path)
+        : mAutoencoder(fdeep::load_model(path))
+        , mDepth(mAutoencoder.get_input_shapes()[0].depth_.unsafe_get_just())
+        , mInput(mDepth, 0.0f)
+        , mTensorShapeDepth(mDepth)
+        , mTensors { fdeep::tensor(mTensorShapeDepth, mInput) }
     {
         DBG("[AUTOENCODER] Constructing with " << path);
-        mAutoencoder = std::make_unique<const fdeep::model>(fdeep::load_model(path));
-
-        mDepth = mAutoencoder->get_input_shapes()[0].depth_.unsafe_get_just();
         DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
-        DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder->get_output_shapes()[0].depth_.unsafe_get_just());
-
-        mInput = std::vector<float>(mDepth, 0.0f);
-        mTensorShapeDepth = std::make_unique<fdeep::tensor_shape>(mDepth);
-        mTensors = { fdeep::tensor(*mTensorShapeDepth, mInput) };
-
-//        mPredictionResult = mAutoencoder->predict(mTensors);
-//        DBG("[AUTOENCODER] Prediction results: " << fdeep::show_tensors(mPredictionResult));
+        DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just());
 
         ca.setlength(win_length);
         audio_m.setlength(win_length);
@@ -109,16 +104,11 @@ public:
 
     void calculate()
     {
-//        for (int i = 0; i < 8; ++i) Z[i] = random.nextFloat();
+        const auto predictionResult = mAutoencoder.predict(mTensors)[0].as_vector();
 
-//        const fdeep::tensor_shape depth (Z.size());
-//        const fdeep::tensors tensors = { fdeep::tensor(depth, Z) };
-//        auto Y_predict = mAutoencoder->predict_stateful(tensors)[0].as_vector();
-        auto Y_predict = mAutoencoder->predict(mTensors)[0].as_vector();
-
-        for (unsigned i = 0; i < rfft_size; ++i)
+        for (int i = 0; i < rfft_size; ++i)
         {
-            const float power = ((Y_predict->operator[](i) * xMax) + sClip) / 10;
+            const float power = ((predictionResult->at(i) * xMax) + sClip) / 10;
             const float y_aux = std::sqrt(std::pow(10, power));
             const float phase = random.nextFloat() * 2 * PI;
             ca[i].x = y_aux * std::cos(phase);
@@ -135,17 +125,19 @@ public:
             idx &= mask;
             mAudio[idx] += audio_m[i];
         }
+
         idx_proc += hop_length;
         idx_proc &= mask;
     }
 
 private:
-    std::unique_ptr<const fdeep::model> mAutoencoder;
-    std::size_t mDepth;
+
+    const fdeep::model mAutoencoder;
+    const std::size_t mDepth;
     std::vector<float> mInput;
-    std::unique_ptr<fdeep::tensor_shape> mTensorShapeDepth;
+    const fdeep::tensor_shape mTensorShapeDepth;
     fdeep::tensors mTensors;
-    fdeep::tensors mPredictionResult;
+    std::vector<float> mPredictionResult;
 
     const double PI = std::acos(-1);
     const double xMax = 96;
