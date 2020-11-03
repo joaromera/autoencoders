@@ -2,13 +2,10 @@
 
 import argparse
 import sys
+
 sys.path.append("../AutoencoderJuce/external/frugally-deep/keras_export/")
 
 import convert_model
-
-# importlib.import_module(
-#     "../AutoencoderJuce/external/frugally_deep/keras_export/convert_model.py"
-# )
 
 def make_autoencoder(filename, epochs=1, hop=None, win=None):
     # Utils
