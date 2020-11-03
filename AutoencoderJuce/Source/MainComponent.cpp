@@ -6,7 +6,7 @@ MainComponent::MainComponent()
     , startTime (juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
     addAndMakeVisible(adsc);
-    adsc.setBounds(300, 25, 300, 300);
+    adsc.setBounds(900, 25, 300, 300);
 
     // Open button
     openButton.setButtonText ("Open...");
@@ -40,7 +40,24 @@ MainComponent::MainComponent()
             mAutoencoder->setSClip(sClipSlider.getValue());
     };
     addAndMakeVisible (&sClipSlider);
-    
+
+    for (int i = 0; i < 8; ++i)
+    {
+        auto* s = new juce::Slider ();
+        s->setRange (-5.0, 5.0, 0.01);
+        s->setPopupMenuEnabled (true);
+        s->setValue (0, juce::dontSendNotification);
+        s->setSliderStyle (juce::Slider::LinearVertical);
+        s->setTextBoxStyle (juce::Slider::TextBoxBelow, false, 100, 20);
+        s->setDoubleClickReturnValue (true, 0.0f); // double-clicking this slider will set it to 50.0
+        s->onValueChange = [this, i, s] {
+            DBG("[MAINCOMPONENT] slider: " << i << " new value: " << s->getValue());
+            if (mAutoencoder) mAutoencoder->setInputLayers(i, s->getValue());
+        };
+        addAndMakeVisible (s);
+        mSliders.push_back(s);
+    }
+
     // MIDI INPUT
     addAndMakeVisible (midiInputList);
     midiInputList.setTextWhenNoChoicesAvailable ("No MIDI Inputs Enabled");
@@ -79,7 +96,7 @@ MainComponent::MainComponent()
 
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (600, 400);
+    setSize (1200, 400);
 
     // Some platforms require permissions to open input channels so request that here
     if (juce::RuntimePermissions::isRequired (juce::RuntimePermissions::recordAudio)
@@ -134,13 +151,20 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    openButton.setBounds(10, 10, getWidth() / 3, 20);
-    xMaxSlider.setBounds(0, 30, (getWidth() - 20) / 4, (getWidth() - 20) / 4);
-    sClipSlider.setBounds((getWidth() - 20) / 4, 30, (getWidth() - 20) / 4, (getWidth() - 20) / 4);
-    
-    auto area = getLocalBounds();
+    openButton.setBounds(10, 10, getWidth() / 12, 20);
+    xMaxSlider.setBounds(0, 60, 100, 100);
+    sClipSlider.setBounds(100, 60, 100, 100);
 
-    midiInputList    .setBounds (area.removeFromTop(36).removeFromRight(getWidth() / 2).reduced(8));
+    juce::Rectangle<int> layoutArea { 240, 5, 600, 190 };
+    auto sliderArea = layoutArea.removeFromTop (320);
+
+    for (int i = 0; i < 8; ++i)
+    {
+        mSliders[i]->setBounds (sliderArea.removeFromLeft (70));
+    }
+
+    auto area = getLocalBounds();
+    midiInputList    .setBounds (area.removeFromTop(36).removeFromRight(getWidth() / 4).reduced(8));
     midiMessagesBox  .setBounds (area.removeFromBottom (getHeight()/2));
 }
 

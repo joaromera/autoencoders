@@ -45,6 +45,8 @@ private:
     juce::Slider sClipSlider;
     juce::AudioDeviceSelectorComponent adsc;
 
+    std::vector<juce::Slider*> mSliders;
+
     //==============================================================================
     // from handling midi events
 //    juce::AudioDeviceManager deviceManager;           // [1]
