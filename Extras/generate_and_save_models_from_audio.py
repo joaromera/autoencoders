@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import os
 import sys
 
 sys.path.append("../AutoencoderJuce/external/frugally-deep/keras_export/")
@@ -125,11 +126,11 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
                     callbacks=[tensorboard_callback])
     
     # save models
-    encoder.save('encoder')
+    # encoder.save('encoder')
     decoder.save('decoder')
-    autoencoder.save('autoencoder')
+    # autoencoder.save('autoencoder')
 
-    print("\n\nModel exported to files 'encoder', 'decoder', and 'autoencoder'\n\n")
+    print("\n\nModel exported to file 'decoder'\n\n")
 
 def main():
     """Do stuff"""
@@ -151,6 +152,7 @@ def main():
     if not args.model_only:
         print("\n\nDecoder model will now be converted to H5 using Frugally Deep's script'\n\n")
         convert_model.convert("./decoder", "decoder.h5", True)
+        os.remove('./decoder')
         print("\n\nDONE. You can now load 'decoder.h5' into the application\n\n")
     else:
         print("\n\nDon't forget to convert your models to H5 using Frugally Deep's scripts before using with the application\n\n")
