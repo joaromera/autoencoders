@@ -23,7 +23,7 @@ public:
     explicit Autoencoder(const std::string& path)
     {
         DBG("[AUTOENCODER] Constructing with " << path);
-        mAutoencoder = std::make_unique<fdeep::model>(fdeep::load_model(path));
+        mAutoencoder = std::make_unique<const fdeep::model>(fdeep::load_model(path));
 
         mDepth = mAutoencoder->get_input_shapes()[0].depth_.unsafe_get_just();
         DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
@@ -31,12 +31,15 @@ public:
 
         mInput = std::vector<float>(mDepth, 0.0f);
         mTensorShapeDepth = std::make_unique<fdeep::tensor_shape>(mDepth);
-        mTensors = {fdeep::tensor(*mTensorShapeDepth, mInput)};
-        mPredictionResult = mAutoencoder->predict(mTensors);
-        DBG("[AUTOENCODER] Prediction results: " << fdeep::show_tensors(mPredictionResult));
+        mTensors = { fdeep::tensor(*mTensorShapeDepth, mInput) };
+
+//        mPredictionResult = mAutoencoder->predict(mTensors);
+//        DBG("[AUTOENCODER] Prediction results: " << fdeep::show_tensors(mPredictionResult));
 
         ca.setlength(win_length);
         audio_m.setlength(win_length);
+
+        ready = true;
     }
 
     Autoencoder() = delete;
@@ -45,6 +48,7 @@ public:
 
     ~Autoencoder()
     {
+        ready = false;
         DBG("[AUTOENCODER] Destroying...");
     }
 
@@ -62,6 +66,12 @@ public:
 
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
     {
+        if (!ready)
+        {
+            bufferToFill.clearActiveBufferRegion();
+            return;
+        }
+
         calculate();
 
         // Sine wave test
@@ -70,9 +80,6 @@ public:
             if (m_time >= std::numeric_limits<float>::max()) {
                 m_time = 0.0;
             }
-
-//        float* const buffer_l = bufferToFill.buffer->getWritePointer(0);
-//        float* const buffer_r = bufferToFill.buffer->getWritePointer(1);
 
             for (int sample = 0; sample < bufferToFill.numSamples; ++sample) {
                 float value = m_amplitude * std::sin((2 * PI * m_frequency * m_time) + m_phase);
@@ -102,40 +109,38 @@ public:
 
     void calculate()
     {
-        for (unsigned n = 0; n < N; ++n)
+//        for (int i = 0; i < 8; ++i) Z[i] = random.nextFloat();
+
+//        const fdeep::tensor_shape depth (Z.size());
+//        const fdeep::tensors tensors = { fdeep::tensor(depth, Z) };
+//        auto Y_predict = mAutoencoder->predict_stateful(tensors)[0].as_vector();
+        auto Y_predict = mAutoencoder->predict(mTensors)[0].as_vector();
+
+        for (unsigned i = 0; i < rfft_size; ++i)
         {
-//            for (int i = 0; i < 8; ++i) Z[i] = random.nextFloat();
-
-            const fdeep::tensor_shape depth (Z.size());
-            const fdeep::tensors tensors = { fdeep::tensor(depth, Z) };
-            const auto Y_predict = mAutoencoder->predict(tensors)[0].as_vector();
-
-            for (unsigned i = 0; i < rfft_size; ++i)
-            {
-                const float power = ((Y_predict->operator[](i) * xMax) + sClip) / 10;
-                const float y_aux = std::sqrt(std::pow(10, power));
-                const float phase = random.nextFloat() * 2 * PI;
-                ca[i].x = y_aux * std::cos(phase);
-                ca[i].y = y_aux * std::sin(phase);
-            }
-
-            alglib::fftr1dinv(ca, audio_m);
-
-            for (int i = 0; i < win_length; ++i)
-            {
-                const float multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
-                audio_m[i] = multiplier * audio_m[i];
-                int idx = idx_proc + i;
-                idx &= mask;
-                mAudio[idx] += audio_m[i];
-            }
-            idx_proc += hop_length;
-            idx_proc &= mask;
+            const float power = ((Y_predict->operator[](i) * xMax) + sClip) / 10;
+            const float y_aux = std::sqrt(std::pow(10, power));
+            const float phase = random.nextFloat() * 2 * PI;
+            ca[i].x = y_aux * std::cos(phase);
+            ca[i].y = y_aux * std::sin(phase);
         }
+
+        alglib::fftr1dinv(ca, audio_m);
+
+        for (int i = 0; i < win_length; ++i)
+        {
+            const float multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
+            audio_m[i] = multiplier * audio_m[i];
+            int idx = idx_proc + i;
+            idx &= mask;
+            mAudio[idx] += audio_m[i];
+        }
+        idx_proc += hop_length;
+        idx_proc &= mask;
     }
- 
+
 private:
-    std::unique_ptr<fdeep::model> mAutoencoder;
+    std::unique_ptr<const fdeep::model> mAutoencoder;
     std::size_t mDepth;
     std::vector<float> mInput;
     std::unique_ptr<fdeep::tensor_shape> mTensorShapeDepth;
@@ -145,14 +150,11 @@ private:
     const double PI = std::acos(-1);
     const double xMax = 96;
     const double sClip = -60;
-//    const unsigned win_length = 880;
-//    const unsigned rfft_size = (win_length / 2) + 1;
     const unsigned win_length = 2048;
     const unsigned rfft_size = (win_length / 2) + 1;
     const unsigned N = 1;
     const unsigned hop_length_ms = 10;
     const unsigned sr = 22050;
-//    const unsigned hop_length = ((float) hop_length_ms / 1000) * sr;
     const unsigned hop_length = 512;
 
     alglib::complex_1d_array ca;
@@ -161,7 +163,8 @@ private:
     int index = 0;
     int idx_proc = 0;
     std::vector<float> mAudio = std::vector<float>(win_length, 0.0f);
-    std::vector<float> Z = std::vector<float>(8, .8f);
+//    std::vector<float> Z = std::vector<float>(8, .8f);
+    std::vector<float> Z = {1,0,0,0,1,0,0,0};
     double mHopLength {10};
     double mWindowLength {10};
 
@@ -173,4 +176,6 @@ private:
     float m_phase = 0.0;
     float m_time = 0.0;
     float m_deltaTime = 1.0 / 44100;
+
+    std::atomic<bool> ready = false;
 };

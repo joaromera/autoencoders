@@ -153,6 +153,8 @@ void MainComponent::openButtonClicked()
 
     if (chooser.browseForFileToOpen())
     {
+        juce::ScopedLock lock(deviceManager.getAudioCallbackLock());
+
         auto file = chooser.getResult();
         DBG("[MAIN_COMPONENT] Chosen file: " + file.getFullPathName().toStdString());
         mAutoencoder = std::make_unique<Autoencoder>(file.getFullPathName().toStdString());
