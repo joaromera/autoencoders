@@ -19,7 +19,7 @@ MainComponent::MainComponent()
     xMaxSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     xMaxSlider.setPopupDisplayEnabled(true, false, this);
     xMaxSlider.setTextValueSuffix(" xMax value");
-    xMaxSlider.setValue(90.0);
+    xMaxSlider.setValue(0.0);
     xMaxSlider.onValueChange = [this] {
         DBG("[MAINCOMPONENT] xMaxSlider: new value " << xMaxSlider.getValue());
         if (mAutoencoder)
@@ -33,7 +33,7 @@ MainComponent::MainComponent()
     sClipSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     sClipSlider.setPopupDisplayEnabled(true, false, this);
     sClipSlider.setTextValueSuffix(" sClip value");
-    sClipSlider.setValue(-60.0);
+    sClipSlider.setValue(-100.0);
     sClipSlider.onValueChange = [this] {
         DBG("[MAINCOMPONENT] sClipSlider: new value " << sClipSlider.getValue());
         if (mAutoencoder)
@@ -184,6 +184,14 @@ void MainComponent::openButtonClicked()
         auto file = chooser.getResult();
         DBG("[MAIN_COMPONENT] Chosen file: " + file.getFullPathName().toStdString());
         mAutoencoder = std::make_unique<Autoencoder>(file.getFullPathName().toStdString());
+
+        xMaxSlider.setValue(0);
+        sClipSlider.setValue(-100);
+
+        for (auto s : mSliders)
+        {
+            s->setValue(0.0f);
+        }
     }
 }
 
