@@ -33,8 +33,8 @@ public:
 
         mTensors.at(0).set(fdeep::tensor_pos{0}, 5.0f);
 
-        ca.setlength(win_length);
-        audio_m.setlength(win_length);
+        ca.setlength(win_length * 2);
+        audio_m.setlength(win_length * 2);
 
         ready = true;
     }
