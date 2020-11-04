@@ -30,15 +30,13 @@ public:
 
 private:
     //==============================================================================
-    // Your private member variables go here...
     void openButtonClicked();
     void setMidiInput(int index);
     void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
     void postMessageToList(const juce::MidiMessage&, const juce::String&);
     void addMessageToList(const juce::MidiMessage&, const juce::String&);
     void logMessage (const juce::String& m);
-    
-    juce::dsp::FFT mFFT {512};
+
     std::unique_ptr<Autoencoder> mAutoencoder;
     juce::TextButton openButton;
     juce::Slider xMaxSlider;
@@ -49,7 +47,6 @@ private:
 
     //==============================================================================
     // from handling midi events
-//    juce::AudioDeviceManager deviceManager;           // [1]
     juce::ComboBox midiInputList;                     // [2]
     juce::Label midiInputListLabel;
     int lastInputIndex = 0;                           // [3]
