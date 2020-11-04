@@ -19,7 +19,7 @@ MainComponent::MainComponent()
     xMaxSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     xMaxSlider.setPopupDisplayEnabled(true, false, this);
     xMaxSlider.setTextValueSuffix(" xMax value");
-    xMaxSlider.setValue(0.0);
+    xMaxSlider.setValue(0.0, juce::dontSendNotification);
     xMaxSlider.onValueChange = [this] {
         DBG("[MAINCOMPONENT] xMaxSlider: new value " << xMaxSlider.getValue());
         if (mAutoencoder)
@@ -33,7 +33,7 @@ MainComponent::MainComponent()
     sClipSlider.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     sClipSlider.setPopupDisplayEnabled(true, false, this);
     sClipSlider.setTextValueSuffix(" sClip value");
-    sClipSlider.setValue(-100.0);
+    sClipSlider.setValue(-100.0, juce::dontSendNotification);
     sClipSlider.onValueChange = [this] {
         DBG("[MAINCOMPONENT] sClipSlider: new value " << sClipSlider.getValue());
         if (mAutoencoder)
@@ -131,7 +131,10 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
 {
-    if (mAutoencoder) mAutoencoder->getNextAudioBlock(bufferToFill);
+    if (mAutoencoder)
+        mAutoencoder->getNextAudioBlock(bufferToFill);
+    else
+        bufferToFill.clearActiveBufferRegion();
 }
 
 void MainComponent::releaseResources()
