@@ -21,7 +21,6 @@ pkg_search_module (FREETYPE2 REQUIRED freetype2)
 pkg_search_module (LIBCURL REQUIRED libcurl)
 
 add_executable (APP
-    "../../Source/Autoencoder.cpp"
     "../../Source/Autoencoder.h"
     "../../Source/Main.cpp"
     "../../Source/MainComponent.h"
@@ -3199,7 +3198,6 @@ if (APPLE)
 project ("Autoencoder" C CXX)
 
 add_executable (APP
-    "../../Source/Autoencoder.cpp"
     "../../Source/Autoencoder.h"
     "../../Source/Main.cpp"
     "../../Source/MainComponent.h"
