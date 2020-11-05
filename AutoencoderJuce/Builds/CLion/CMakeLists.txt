@@ -3034,9 +3034,6 @@ find_library (DL dl
 find_library (PTHREAD pthread
 )
 
-find_library (:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A :${PROJECT_DIR}../../../external/alglib/build/linux/libalglib.a
-)
-
 set_target_properties (APP PROPERTIES
     OUTPUT_NAME "Autoencoder"
     CXX_STANDARD 17
@@ -3081,11 +3078,9 @@ target_compile_definitions (APP PRIVATE
 target_link_libraries (APP PRIVATE
     
     -fvisibility=hidden
-    -L${PROJECT_DIR}../../../external/alglib/build/linux/
     ${RT}
     ${DL}
     ${PTHREAD}
-    ${:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A}
     ${ALSA_LIBRARIES}
     ${FREETYPE2_LIBRARIES}
     ${LIBCURL_LIBRARIES}
@@ -3124,9 +3119,6 @@ find_library (DL dl
 )
 
 find_library (PTHREAD pthread
-)
-
-find_library (:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A :${PROJECT_DIR}../../../external/alglib/build/linux/libalglib.a
 )
 
 set_target_properties (APP PROPERTIES
@@ -3172,11 +3164,9 @@ target_compile_definitions (APP PRIVATE
 target_link_libraries (APP PRIVATE
     
     -fvisibility=hidden
-    -L${PROJECT_DIR}../../../external/alglib/build/linux/
     ${RT}
     ${DL}
     ${PTHREAD}
-    ${:${PROJECT_DIR}../../../EXTERNAL/ALGLIB/BUILD/LINUX/LIBALGLIB.A}
     ${ALSA_LIBRARIES}
     ${FREETYPE2_LIBRARIES}
     ${LIBCURL_LIBRARIES}

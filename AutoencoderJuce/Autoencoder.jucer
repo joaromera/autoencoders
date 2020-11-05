@@ -15,8 +15,7 @@
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <EXPORTFORMATS>
-    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" extraLinkerFlags="-L${PROJECT_DIR}../../../external/alglib/build/linux/"
-                externalLibraries=":${PROJECT_DIR}../../../external/alglib/build/linux/libalglib.a">
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="Autoencoder"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="Autoencoder"/>
