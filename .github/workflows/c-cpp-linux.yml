@@ -13,7 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: cd
-      run: cd AutoencoderJuce/Builds/LinuxMakefile
+      with:
+        submodules: true
     - name: make
+      working-directory: ./AutoencoderJuce/Builds/LinuxMakefile
       run: make CONFIG=Release
