@@ -1,4 +1,11 @@
 #include "MainComponent.h"
+#define n_sliders 8
+#define slider_ccnum 1
+
+float inline linearmap(float x, float in_min, float in_max, float out_min, float out_max)
+{
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 
 //==============================================================================
 MainComponent::MainComponent()
@@ -167,7 +174,7 @@ void MainComponent::resized()
     juce::Rectangle<int> layoutArea{240, 5, 600, 190};
     auto sliderArea = layoutArea.removeFromTop(320);
 
-    for (int i = 0; i < 8; ++i)
+    for (int i = 0; i < n_sliders; ++i)
     {
         mSliders[i]->setBounds(sliderArea.removeFromLeft(70));
     }
@@ -219,7 +226,21 @@ void MainComponent::setMidiInput(int index)
 void MainComponent::handleIncomingMidiMessage(juce::MidiInput *source, const juce::MidiMessage &message)
 {
     const juce::ScopedValueSetter<bool> scopedInputFlag(isAddingFromMidiInput, true);
+    int ccnum;
+    if (message.isController())
+        ccnum = message.getControllerNumber();
+    if ((ccnum >= slider_ccnum) && (ccnum <= slider_ccnum + n_sliders))
+    {
+        const juce::MessageManagerLock mmLock;
+
+        float mi = mSliders[ccnum - slider_ccnum]->getMinimum();
+        float ma = mSliders[ccnum - slider_ccnum]->getMaximum();
+        mSliders[ccnum - slider_ccnum]->setValue(linearmap(message.getControllerValue(), 0, 127.0, mi, ma));
+    }
+
+#if JUCE_DEBUG
     postMessageToList(message, source->getName());
+#endif
 }
 
 void MainComponent::postMessageToList(const juce::MidiMessage &message, const juce::String &source)
