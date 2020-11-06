@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: cd
-      run: cd Autotoencoder/Builds/LinuxMakefile
+      run: cd AutoencoderJuce/Builds/LinuxMakefile
     - name: make
       run: make CONFIG=Release
