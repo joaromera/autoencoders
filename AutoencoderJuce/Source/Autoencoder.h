@@ -45,6 +45,11 @@ public:
         mTensors.at(0).set(fdeep::tensor_pos {pos}, newValue);
     }
 
+    size_t getInputDepth()
+    {
+        return mDepth;
+    }
+
     void setXMax(const float newValue)
     {
         DBG("[AUTOENCODER] xMax Length: " << newValue);

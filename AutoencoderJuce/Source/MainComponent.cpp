@@ -48,23 +48,23 @@ MainComponent::MainComponent()
     };
     addAndMakeVisible(&sClipSlider);
 
-    for (int i = 0; i < n_sliders; ++i)
-    {
-        auto *s = new juce::Slider();
-        s->setRange(-5.0, 5.0, 0.01);
-        s->setPopupMenuEnabled(true);
-        s->setValue(0, juce::dontSendNotification);
-        s->setSliderStyle(juce::Slider::LinearVertical);
-        s->setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-        s->setDoubleClickReturnValue(true, 0.0f); // double-clicking this slider will set it to 50.0
-        s->onValueChange = [this, i, s] {
-            DBG("[MAINCOMPONENT] slider: " << i << " new value: " << s->getValue());
-            if (mAutoencoder)
-                mAutoencoder->setInputLayers(i, s->getValue());
-        };
-        addAndMakeVisible(s);
-        mSliders.push_back(s);
-    }
+//    for (int i = 0; i < n_sliders; ++i)
+//    {
+//        auto *s = new juce::Slider();
+//        s->setRange(-5.0, 5.0, 0.01);
+//        s->setPopupMenuEnabled(true);
+//        s->setValue(0, juce::dontSendNotification);
+//        s->setSliderStyle(juce::Slider::LinearVertical);
+//        s->setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
+//        s->setDoubleClickReturnValue(true, 0.0f); // double-clicking this slider will set it to 50.0
+//        s->onValueChange = [this, i, s] {
+//            DBG("[MAINCOMPONENT] slider: " << i << " new value: " << s->getValue());
+//            if (mAutoencoder)
+//                mAutoencoder->setInputLayers(i, s->getValue());
+//        };
+//        addAndMakeVisible(s);
+//        mSliders.push_back(s);
+//    }
 
     // MIDI INPUT
     addAndMakeVisible(midiInputList);
@@ -127,7 +127,7 @@ MainComponent::~MainComponent()
 
     for (auto s : mSliders)
     {
-        delete s;
+        if (s) delete s;
     }
 }
 
@@ -197,14 +197,55 @@ void MainComponent::openButtonClicked()
         DBG("[MAIN_COMPONENT] Chosen file: " + file.getFullPathName().toStdString());
         mAutoencoder = std::make_unique<Autoencoder>(file.getFullPathName().toStdString());
 
+        deleteSliders();
+        createSliders();
+
         xMaxSlider.setValue(0);
         sClipSlider.setValue(-100);
-
-        for (auto s : mSliders)
-        {
-            s->setValue(0.0f);
-        }
     }
+}
+
+void MainComponent::createSliders()
+{
+    if (!mAutoencoder) return;
+
+    for (int i = 0; i < mAutoencoder->getInputDepth(); ++i)
+    {
+        DBG("[MAINCOMPONENT] Creating slider: " << i);
+
+        auto *s = new juce::Slider();
+        s->setRange(-5.0, 5.0, 0.01);
+        s->setPopupMenuEnabled(true);
+        s->setValue(0, juce::dontSendNotification);
+        s->setSliderStyle(juce::Slider::LinearVertical);
+        s->setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
+        s->setDoubleClickReturnValue(true, 0.0f); // double-clicking this slider will set it to 50.0
+        s->onValueChange = [this, i, s] {
+            DBG("[MAINCOMPONENT] slider: " << i << " new value: " << s->getValue());
+            mAutoencoder->setInputLayers(i, s->getValue());
+        };
+        addAndMakeVisible(s);
+        mSliders.push_back(s);
+    }
+
+    for (auto s : mSliders)
+    {
+        s->setValue(0.0f);
+    }
+
+    resized();
+}
+
+void MainComponent::deleteSliders() {
+    for (auto s : mSliders)
+    {
+        if (!s) continue;
+        removeChildComponent(s);
+        delete s;
+    }
+
+    mSliders.clear();
+    resized();
 }
 
 void MainComponent::setMidiInput(int index)

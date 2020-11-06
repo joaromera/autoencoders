@@ -31,6 +31,8 @@ public:
 private:
     //==============================================================================
     void openButtonClicked();
+    void createSliders();
+    void deleteSliders();
     void setMidiInput(int index);
     void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
     void postMessageToList(const juce::MidiMessage&, const juce::String&);
