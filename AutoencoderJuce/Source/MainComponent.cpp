@@ -47,24 +47,6 @@ MainComponent::MainComponent()
     };
     addAndMakeVisible(&sClipSlider);
 
-//    for (int i = 0; i < n_sliders; ++i)
-//    {
-//        auto *s = new juce::Slider();
-//        s->setRange(-5.0, 5.0, 0.01);
-//        s->setPopupMenuEnabled(true);
-//        s->setValue(0, juce::dontSendNotification);
-//        s->setSliderStyle(juce::Slider::LinearVertical);
-//        s->setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-//        s->setDoubleClickReturnValue(true, 0.0f); // double-clicking this slider will set it to 50.0
-//        s->onValueChange = [this, i, s] {
-//            DBG("[MAINCOMPONENT] slider: " << i << " new value: " << s->getValue());
-//            if (mAutoencoder)
-//                mAutoencoder->setInputLayers(i, s->getValue());
-//        };
-//        addAndMakeVisible(s);
-//        mSliders.push_back(s);
-//    }
-
     // MIDI INPUT
     addAndMakeVisible(midiInputList);
     midiInputList.setTextWhenNoChoicesAvailable("No MIDI Inputs Enabled");
@@ -198,9 +180,7 @@ void MainComponent::openButtonClicked()
 
         deleteSliders();
         createSliders();
-
-        xMaxSlider.setValue(0);
-        sClipSlider.setValue(-100);
+        resetSliders();
     }
 }
 
@@ -227,15 +207,11 @@ void MainComponent::createSliders()
         mSliders.push_back(s);
     }
 
-    for (auto s : mSliders)
-    {
-        s->setValue(0.0f);
-    }
-
     resized();
 }
 
-void MainComponent::deleteSliders() {
+void MainComponent::deleteSliders()
+{
     for (auto s : mSliders)
     {
         if (!s) continue;
@@ -245,6 +221,17 @@ void MainComponent::deleteSliders() {
 
     mSliders.clear();
     resized();
+}
+
+void MainComponent::resetSliders()
+{
+    xMaxSlider.setValue(xMaxSlider.getMinimum());
+    sClipSlider.setValue(sClipSlider.getMinimum());
+
+    for (auto s : mSliders)
+    {
+        s->setValue((s->getMinimum() + s->getMaximum()) / 2);
+    }
 }
 
 void MainComponent::setMidiInput(int index)
