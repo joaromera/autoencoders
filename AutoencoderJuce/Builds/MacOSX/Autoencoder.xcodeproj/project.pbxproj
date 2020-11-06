@@ -562,6 +562,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_extra=1",
 					"JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1",
+					"JUCE_JACK=1",
 					"JUCE_STRICT_REFCOUNTEDPOINTER=1",
 					"JUCE_STANDALONE_APPLICATION=1",
 				);
@@ -573,7 +574,6 @@
 					"../../external/eigen",
 					"../../external/FunctionalPlus/include",
 					"../../external/json/include",
-					"../../external/alglib/src",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -587,7 +587,6 @@
 					"../../external/eigen",
 					"../../external/FunctionalPlus/include",
 					"../../external/json/include",
-					"../../external/alglib/src",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
@@ -638,6 +637,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_extra=1",
 					"JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1",
+					"JUCE_JACK=1",
 					"JUCE_STRICT_REFCOUNTEDPOINTER=1",
 					"JUCE_STANDALONE_APPLICATION=1",
 				);
@@ -649,7 +649,6 @@
 					"../../external/eigen",
 					"../../external/FunctionalPlus/include",
 					"../../external/json/include",
-					"../../external/alglib/src",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-App.plist;
@@ -664,7 +663,6 @@
 					"../../external/eigen",
 					"../../external/FunctionalPlus/include",
 					"../../external/json/include",
-					"../../external/alglib/src",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
