@@ -140,7 +140,7 @@ def main():
     parser.add_argument('-e', '--epochs', help="Number of epochs for fitting", required=False)
     parser.add_argument('-j', '--hop', help="Size of hop length in samples", required=False)
     parser.add_argument('-w', '--win', help="Window length in samples", required=False)
-    parser.add_argument('-m', '--model_only', help="Don't convert output model to h5 using Frugally Deep's script", required=False, action='store_true')
+    parser.add_argument('-m', '--model_only', help="Don't convert output model using Frugally Deep's script", required=False, action='store_true')
     args = parser.parse_args()
 
     epochs = int(args.epochs) if args.epochs else None
@@ -150,12 +150,12 @@ def main():
     make_autoencoder(args.audio, epochs, hop_length, win_length)
 
     if not args.model_only:
-        print("\n\nDecoder model will now be converted to H5 using Frugally Deep's script'\n\n")
-        convert_model.convert("./decoder", "decoder.h5", True)
+        print("\n\nDecoder model will now be converted using Frugally Deep's script'\n\n")
+        convert_model.convert("./decoder", "decoder.json", True)
         os.remove('./decoder')
-        print("\n\nDONE. You can now load 'decoder.h5' into the application\n\n")
+        print("\n\nDONE. You can now load 'decoder.json' into the application\n\n")
     else:
-        print("\n\nDon't forget to convert your models to H5 using Frugally Deep's scripts before using with the application\n\n")
+        print("\n\nDon't forget to convert your models using Frugally Deep's scripts before using with the application\n\n")
 
 
 if __name__ == "__main__":
