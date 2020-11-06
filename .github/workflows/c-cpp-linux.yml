@@ -16,7 +16,7 @@ jobs:
       with:
         submodules: true
     - name: install dependencies
-      run: sudo apt-get install alsa alsa-tools libcurl4-openssl-dev libwebkit2gtk-4.0-dev libgtk-3-dev
+      run: sudo apt-get install alsa alsa-tools libasound2-dev libcurl4-openssl-dev libwebkit2gtk-4.0-dev libgtk-3-dev
     - name: make
       working-directory: ./AutoencoderJuce/Builds/LinuxMakefile
       run: make CONFIG=Release
