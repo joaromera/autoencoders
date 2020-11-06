@@ -467,33 +467,6 @@ Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_j
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/APP.dir/build.make CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.s
 .PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.s
 
-Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.o: Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o
-
-.PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.o
-
-# target to build an object file
-Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/APP.dir/build.make CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o
-.PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o
-
-Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.i: Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.i
-
-.PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.i
-
-# target to preprocess a source file
-Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/APP.dir/build.make CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.i
-.PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.i
-
-Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.s: Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.s
-
-.PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.s
-
-# target to generate assembly for a file
-Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/APP.dir/build.make CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.s
-.PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.s
-
 Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.o: Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o
 
 .PHONY : Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.o
@@ -593,9 +566,6 @@ help:
 	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.o"
 	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.i"
 	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.s"
-	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.o"
-	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.i"
-	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.s"
 	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.o"
 	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.i"
 	@echo "... Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.s"

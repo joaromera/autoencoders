@@ -6252,13 +6252,13 @@ set_target_properties (APP PROPERTIES
     XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
     XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Applications"
     XCODE_ATTRIBUTE_MTL_HEADER_SEARCH_PATHS (
-					"../../JuceLibraryCode",
-					"../../external/JUCE/modules",
-					"../../external/frugally-deep/include",
-					"../../external/eigen",
-					"../../external/FunctionalPlus/include",
-					"../../external/json/include"
-				)
+                    "../../JuceLibraryCode" ,
+                    "../../external/JUCE/modules" ,
+                    "../../external/frugally-deep/include" ,
+                    "../../external/eigen" ,
+                    "../../external/FunctionalPlus/include" ,
+                    "../../external/json/include"
+                )
     XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER Autoencoders
     XCODE_ATTRIBUTE_PRODUCT_NAME "Autoencoder"
     XCODE_ATTRIBUTE_USE_HEADERMAP NO
@@ -6361,13 +6361,13 @@ set_target_properties (APP PROPERTIES
     XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
     XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Applications"
     XCODE_ATTRIBUTE_MTL_HEADER_SEARCH_PATHS (
-					"../../JuceLibraryCode",
-					"../../external/JUCE/modules",
-					"../../external/frugally-deep/include",
-					"../../external/eigen",
-					"../../external/FunctionalPlus/include",
-					"../../external/json/include",
-				)
+                    "../../JuceLibraryCode" ,
+                    "../../external/JUCE/modules" ,
+                    "../../external/frugally-deep/include" ,
+                    "../../external/eigen" ,
+                    "../../external/FunctionalPlus/include" ,
+                    "../../external/json/include"
+                )
     XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER Autoencoders
     XCODE_ATTRIBUTE_PRODUCT_NAME "Autoencoder"
     XCODE_ATTRIBUTE_USE_HEADERMAP NO

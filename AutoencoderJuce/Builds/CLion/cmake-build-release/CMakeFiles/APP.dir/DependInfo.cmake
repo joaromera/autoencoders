@@ -16,7 +16,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm" "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm.o"
   "/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm" "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm.o"
   "/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm" "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.o"
-  "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp" "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o"
   "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp" "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o"
   "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp" "/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o"
   )
@@ -29,6 +28,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "JUCE_APP_VERSION_HEX=0x10000"
   "JUCE_DISPLAY_SPLASH_SCREEN=1"
   "JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1"
+  "JUCE_JACK=1"
   "JUCE_MODULE_AVAILABLE_juce_audio_basics=1"
   "JUCE_MODULE_AVAILABLE_juce_audio_devices=1"
   "JUCE_MODULE_AVAILABLE_juce_audio_formats=1"
@@ -41,7 +41,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "JUCE_MODULE_AVAILABLE_juce_graphics=1"
   "JUCE_MODULE_AVAILABLE_juce_gui_basics=1"
   "JUCE_MODULE_AVAILABLE_juce_gui_extra=1"
-  "JUCE_PROJUCER_VERSION=0x60001"
+  "JUCE_PROJUCER_VERSION=0x60004"
   "JUCE_STANDALONE_APPLICATION=1"
   "JUCE_STRICT_REFCOUNTEDPOINTER=1"
   "JUCE_USE_DARK_SPLASH_SCREEN=1"
@@ -65,7 +65,6 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../../../external/eigen"
   "../../../external/FunctionalPlus/include"
   "../../../external/json/include"
-  "../../../external/alglib/src"
   )
 
 # Targets to which this target links.

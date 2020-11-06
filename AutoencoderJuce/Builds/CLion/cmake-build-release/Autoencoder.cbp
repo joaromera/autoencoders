@@ -59,7 +59,7 @@
 					<Add option="-DJucePlugin_Build_Unity=0"/>
 					<Add option="-DJUCE_DISPLAY_SPLASH_SCREEN=1"/>
 					<Add option="-DJUCE_USE_DARK_SPLASH_SCREEN=1"/>
-					<Add option="-DJUCE_PROJUCER_VERSION=0x60001"/>
+					<Add option="-DJUCE_PROJUCER_VERSION=0x60004"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_audio_basics=1"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_audio_devices=1"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_audio_formats=1"/>
@@ -73,6 +73,7 @@
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_gui_basics=1"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_gui_extra=1"/>
 					<Add option="-DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1"/>
+					<Add option="-DJUCE_JACK=1"/>
 					<Add option="-DJUCE_STRICT_REFCOUNTEDPOINTER=1"/>
 					<Add option="-DJUCE_STANDALONE_APPLICATION=1"/>
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../JuceLibraryCode"/>
@@ -81,7 +82,6 @@
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/eigen"/>
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/FunctionalPlus/include"/>
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/json/include"/>
-					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/alglib/src"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include"/>
@@ -118,7 +118,7 @@
 					<Add option="-DJucePlugin_Build_Unity=0"/>
 					<Add option="-DJUCE_DISPLAY_SPLASH_SCREEN=1"/>
 					<Add option="-DJUCE_USE_DARK_SPLASH_SCREEN=1"/>
-					<Add option="-DJUCE_PROJUCER_VERSION=0x60001"/>
+					<Add option="-DJUCE_PROJUCER_VERSION=0x60004"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_audio_basics=1"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_audio_devices=1"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_audio_formats=1"/>
@@ -132,6 +132,7 @@
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_gui_basics=1"/>
 					<Add option="-DJUCE_MODULE_AVAILABLE_juce_gui_extra=1"/>
 					<Add option="-DJUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1"/>
+					<Add option="-DJUCE_JACK=1"/>
 					<Add option="-DJUCE_STRICT_REFCOUNTEDPOINTER=1"/>
 					<Add option="-DJUCE_STANDALONE_APPLICATION=1"/>
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../JuceLibraryCode"/>
@@ -140,7 +141,6 @@
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/eigen"/>
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/FunctionalPlus/include"/>
 					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/json/include"/>
-					<Add directory="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/../../external/alglib/src"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include"/>
@@ -193,9 +193,6 @@
 			<Option target="APP"/>
 		</Unit>
 		<Unit filename="/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm">
-			<Option target="APP"/>
-		</Unit>
-		<Unit filename="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp">
 			<Option target="APP"/>
 		</Unit>
 		<Unit filename="/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.h">
@@ -1642,6 +1639,9 @@
 			<Option target="APP"/>
 		</Unit>
 		<Unit filename="/Users/jromera/Development/Autoencoders/AutoencoderJuce/external/JUCE/modules/juce_audio_processors/format_types/VST3_SDK/public.sdk/source/vst/vstpresetfile.h">
+			<Option target="APP"/>
+		</Unit>
+		<Unit filename="/Users/jromera/Development/Autoencoders/AutoencoderJuce/external/JUCE/modules/juce_audio_processors/format_types/juce_AU_Shared.h">
 			<Option target="APP"/>
 		</Unit>
 		<Unit filename="/Users/jromera/Development/Autoencoders/AutoencoderJuce/external/JUCE/modules/juce_audio_processors/format_types/juce_AudioUnitPluginFormat.h">

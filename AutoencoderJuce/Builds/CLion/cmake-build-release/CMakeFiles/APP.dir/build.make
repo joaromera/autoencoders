@@ -77,22 +77,9 @@ include CMakeFiles/APP.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/APP.dir/flags.make
 
-CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o: CMakeFiles/APP.dir/flags.make
-CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp
-
-CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp > CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.i
-
-CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.s
-
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.i: cmake_force
@@ -105,7 +92,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.i: cmake_force
@@ -118,7 +105,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.i: cmake_force
@@ -131,7 +118,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_devices.mm.i: cmake_force
@@ -144,7 +131,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_formats.mm.i: cmake_force
@@ -157,7 +144,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_processors.mm.i: cmake_force
@@ -170,7 +157,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_utils.mm.i: cmake_force
@@ -183,7 +170,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_core.mm.i: cmake_force
@@ -196,7 +183,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_data_structures.mm.i: cmake_force
@@ -209,7 +196,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_dsp.mm.i: cmake_force
@@ -222,7 +209,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_events.mm.i: cmake_force
@@ -235,7 +222,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_graphics.mm.i: cmake_force
@@ -248,7 +235,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_basics.mm.i: cmake_force
@@ -261,7 +248,7 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.o: CMakeFiles/APP.dir/flags.make
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.o: /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.o -c /Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm
 
 CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.i: cmake_force
@@ -274,7 +261,6 @@ CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLi
 
 # Object files for target APP
 APP_OBJECTS = \
-"CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o" \
 "CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o" \
 "CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o" \
 "CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.o" \
@@ -293,7 +279,6 @@ APP_OBJECTS = \
 # External object files for target APP
 APP_EXTERNAL_OBJECTS =
 
-Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Autoencoder.cpp.o
 Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/Main.cpp.o
 Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/Source/MainComponent.cpp.o
 Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_audio_basics.mm.o
@@ -310,7 +295,7 @@ Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/Users/jromera/Dev
 Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/Users/jromera/Development/Autoencoders/AutoencoderJuce/JuceLibraryCode/include_juce_gui_extra.mm.o
 Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/build.make
 Autoencoder.app/Contents/MacOS/Autoencoder: CMakeFiles/APP.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable Autoencoder.app/Contents/MacOS/Autoencoder"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/jromera/Development/Autoencoders/AutoencoderJuce/Builds/CLion/cmake-build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable Autoencoder.app/Contents/MacOS/Autoencoder"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/APP.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
