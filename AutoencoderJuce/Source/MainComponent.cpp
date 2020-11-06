@@ -1,5 +1,4 @@
 #include "MainComponent.h"
-#define n_sliders 8
 #define slider_ccnum 1
 
 float inline linearmap(float x, float in_min, float in_max, float out_min, float out_max)
@@ -268,16 +267,20 @@ void MainComponent::setMidiInput(int index)
 void MainComponent::handleIncomingMidiMessage(juce::MidiInput *source, const juce::MidiMessage &message)
 {
     const juce::ScopedValueSetter<bool> scopedInputFlag(isAddingFromMidiInput, true);
-    int ccnum;
-    if (message.isController())
-        ccnum = message.getControllerNumber();
-    if ((ccnum >= slider_ccnum) && (ccnum <= slider_ccnum + n_sliders))
-    {
-        const juce::MessageManagerLock mmLock;
 
-        float mi = mSliders[ccnum - slider_ccnum]->getMinimum();
-        float ma = mSliders[ccnum - slider_ccnum]->getMaximum();
-        mSliders[ccnum - slider_ccnum]->setValue(linearmap(message.getControllerValue(), 0, 127.0, mi, ma));
+    if (message.isController())
+    {
+        const int ccnum = message.getControllerNumber();
+
+        if ((ccnum >= slider_ccnum) && (ccnum <= slider_ccnum + mSliders.size()))
+        {
+            const juce::MessageManagerLock mmLock;
+
+            const int sliderIndex = ccnum - slider_ccnum;
+            const float mi = mSliders[sliderIndex]->getMinimum();
+            const float ma = mSliders[sliderIndex]->getMaximum();
+            mSliders[sliderIndex]->setValue(linearmap(message.getControllerValue(), 0, 127.0, mi, ma));
+        }
     }
 
 #if JUCE_DEBUG
