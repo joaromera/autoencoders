@@ -12,10 +12,8 @@
 
 #include <fdeep/fdeep.hpp>
 #include <JuceHeader.h>
-#include <memory>
 #include <string>
 #include <vector>
-//#include "fasttransforms.h"
 
 class Autoencoder
 {
@@ -30,9 +28,6 @@ public:
         DBG("[AUTOENCODER] Constructing with " << path);
         DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
         DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just());
-
-//        ca.setlength(win_length * 2);
-//        audio_m.setlength(win_length * 2);
     }
 
     Autoencoder() = delete;
@@ -44,19 +39,19 @@ public:
         DBG("[AUTOENCODER] Destroying...");
     }
 
-    void setInputLayers(size_t pos, double newValue)
+    void setInputLayers(const size_t pos, const float newValue)
     {
         DBG("[AUTOENCODER] slider: " << pos << " new value: " << newValue);
         mTensors.at(0).set(fdeep::tensor_pos {pos}, newValue);
     }
 
-    void setXMax(double newValue)
+    void setXMax(const float newValue)
     {
         DBG("[AUTOENCODER] xMax Length: " << newValue);
         xMax = newValue;
     }
 
-    void setSClip(double newValue)
+    void setSClip(const float newValue)
     {
         DBG("[AUTOENCODER] sClip Length: " << newValue);
         sClip = newValue;
@@ -85,23 +80,19 @@ public:
         {
             const float power = ((predictionResult->at(i) * xMax) + sClip) / 10;
             const float y_aux = std::sqrt(std::pow(10, power));
-            const float phase = random.nextFloat() * 2 * PI;
+            const float phase = random.nextFloat() * juce::MathConstants<float>::twoPi;
             fft_array[i] = y_aux * std::cos(phase);
-//            ca[i].x = y_aux * std::cos(phase);
-//            ca[i].y = y_aux * std::sin(phase);
         }
-
-//        alglib::fftr1dinv(ca, audio_m);
 
         mFFT.performRealOnlyInverseTransform(fft_array);
 
         for (int i = 0; i < win_length; ++i)
         {
-            const float multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
-//            audio_m[i] *= multiplier;
+            const float multiplier = 0.5f * (
+                1 - std::cos(juce::MathConstants<float>::twoPi * i / (win_length - 1))
+            );
             fft_array[i] *= multiplier;
             const int idx = (idx_proc + i) & mask;
-//            mAudio[idx] += audio_m[i];
             mAudio[idx] += fft_array[i];
         }
 
@@ -117,21 +108,18 @@ private:
     const fdeep::tensor_shape mTensorShapeDepth;
     fdeep::tensors mTensors;
 
-    const double PI = std::acos(-1);
-    double xMax = 0;
-    double sClip = -100;
+    float xMax = 0;
+    float sClip = -100;
     const unsigned win_length = 2048;
     const unsigned rfft_size = (win_length / 2) + 1;
     const unsigned hop_length = 512;
 
-//    alglib::complex_1d_array ca;
-//    alglib::real_1d_array audio_m;
     float fft_array[4096] = {};
     const int mask = win_length - 1;
     int index = 0;
     int idx_proc = 0;
     std::vector<float> mAudio = std::vector<float>(win_length, 0.0f);
 
-    juce::Random random{};
+    juce::Random random {};
     juce::dsp::FFT mFFT {11};
 };
