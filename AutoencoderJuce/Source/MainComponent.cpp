@@ -164,7 +164,7 @@ void MainComponent::resized()
 
 void MainComponent::openButtonClicked()
 {
-    juce::FileChooser chooser("Select a file to load...", {}, "*.*");
+    juce::FileChooser chooser("Select a file to load...", {}, "*");
 
     if (chooser.browseForFileToOpen())
     {
@@ -194,7 +194,7 @@ void MainComponent::createSliders()
         s->setValue(0, juce::dontSendNotification);
         s->setSliderStyle(juce::Slider::LinearVertical);
         s->setTextBoxStyle(juce::Slider::TextBoxBelow, false, 100, 20);
-        s->setDoubleClickReturnValue(true, 0.0f); // double-clicking this slider will set it to 50.0
+        s->setDoubleClickReturnValue(true, 0.0f);
         s->onValueChange = [this, i, s] {
             DBG("[MAINCOMPONENT] slider: " << i << " new value: " << s->getValue());
             mAutoencoder->setInputLayers(i, s->getValue());
