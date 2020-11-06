@@ -105,11 +105,7 @@ MainComponent::MainComponent()
 MainComponent::~MainComponent()
 {
     shutdownAudio();
-
-    for (auto s : mSliders)
-    {
-        if (s) delete s;
-    }
+    deleteSliders();
 }
 
 //==============================================================================
