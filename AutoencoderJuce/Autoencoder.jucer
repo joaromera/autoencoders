@@ -6,7 +6,6 @@
               maxBinaryFileSize="20971520" cppLanguageStandard="17" bundleIdentifier="Autoencoders">
   <MAINGROUP id="ZA68TQ" name="Autoencoder">
     <GROUP id="{396F6501-1712-AFD9-6238-AFA54B42F79F}" name="Source">
-      <FILE id="H8U0qz" name="Autoencoder.cpp" compile="1" resource="0" file="Source/Autoencoder.cpp"/>
       <FILE id="yUAoUe" name="Autoencoder.h" compile="0" resource="0" file="Source/Autoencoder.h"/>
       <FILE id="L3AUdZ" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="zDTscI" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
@@ -14,10 +13,9 @@
             file="Source/MainComponent.cpp"/>
     </GROUP>
   </MAINGROUP>
-  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_JACK="1"/>
   <EXPORTFORMATS>
-    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" extraLinkerFlags="-L${PROJECT_DIR}../../../external/alglib/build/linux/"
-                externalLibraries=":${PROJECT_DIR}../../../external/alglib/build/linux/libalglib.a">
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="Autoencoder"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="Autoencoder"/>

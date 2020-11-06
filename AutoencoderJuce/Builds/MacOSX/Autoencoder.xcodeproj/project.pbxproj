@@ -57,10 +57,6 @@
 			isa = PBXBuildFile;
 			fileRef = 064AE36F1AB085898EAC78D1;
 		};
-		A827013AE9E3EDBBF7B554FD = {
-			isa = PBXBuildFile;
-			fileRef = 11920C551DFFBA755CB530AB;
-		};
 		2992413762D3FA47DCC5C2D4 = {
 			isa = PBXBuildFile;
 			fileRef = 5D12683C4A195C59A8FB0995;
@@ -129,13 +125,6 @@
 			lastKnownFileType = file.nib;
 			name = RecentFilesMenuTemplate.nib;
 			path = RecentFilesMenuTemplate.nib;
-			sourceTree = "SOURCE_ROOT";
-		};
-		11920C551DFFBA755CB530AB = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = Autoencoder.cpp;
-			path = ../../Source/Autoencoder.cpp;
 			sourceTree = "SOURCE_ROOT";
 		};
 		245F5339642FE339F18CC5B1 = {
@@ -428,7 +417,6 @@
 		3BE01688359148B4047E32F7 = {
 			isa = PBXGroup;
 			children = (
-				11920C551DFFBA755CB530AB,
 				3D43CE0037BC4C6380ED4898,
 				5D12683C4A195C59A8FB0995,
 				975B2B615958AFDF60F89BEE,
@@ -560,7 +548,7 @@
 					"JucePlugin_Build_Unity=0",
 					"JUCE_DISPLAY_SPLASH_SCREEN=1",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_PROJUCER_VERSION=0x60004",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_formats=1",
@@ -592,10 +580,19 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/osx/";
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../external/JUCE/modules",
+					"../../external/frugally-deep/include",
+					"../../external/eigen",
+					"../../external/FunctionalPlus/include",
+					"../../external/json/include",
+					"../../external/alglib/src",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
 			};
 			name = Debug;
 		};
@@ -627,7 +624,7 @@
 					"JucePlugin_Build_Unity=0",
 					"JUCE_DISPLAY_SPLASH_SCREEN=1",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_PROJUCER_VERSION=0x60004",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_formats=1",
@@ -660,10 +657,19 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				OTHER_LDFLAGS = "-lalglib -L${PROJECT_DIR}../../../external/alglib/build/osx/";
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../external/JUCE/modules",
+					"../../external/frugally-deep/include",
+					"../../external/eigen",
+					"../../external/FunctionalPlus/include",
+					"../../external/json/include",
+					"../../external/alglib/src",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = Autoencoders;
 				PRODUCT_NAME = "Autoencoder";
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
 			};
 			name = Release;
 		};
@@ -794,7 +800,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A827013AE9E3EDBBF7B554FD,
 				2992413762D3FA47DCC5C2D4,
 				10846BF3782EFC243AF56895,
 				4AC00F082218D5F639934BE4,
@@ -848,7 +853,7 @@
 		2584A1D1F482AC617B0DD279 = {
 			isa = PBXProject;
 			buildConfigurationList = 75E6A1244F1A6BBE8A994998;
-			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = ""; TargetAttributes = { 2EA0C92B273A4E7183599A67 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
+			attributes = { LastUpgradeCheck = 1200; ORGANIZATIONNAME = ""; TargetAttributes = { 2EA0C92B273A4E7183599A67 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = CCA58DA5C83F04B2B4B8F26B;

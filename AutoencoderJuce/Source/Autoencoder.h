@@ -15,7 +15,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "fasttransforms.h"
+//#include "fasttransforms.h"
 
 class Autoencoder
 {
@@ -31,8 +31,8 @@ public:
         DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
         DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just());
 
-        ca.setlength(win_length * 2);
-        audio_m.setlength(win_length * 2);
+//        ca.setlength(win_length * 2);
+//        audio_m.setlength(win_length * 2);
     }
 
     Autoencoder() = delete;
@@ -86,18 +86,23 @@ public:
             const float power = ((predictionResult->at(i) * xMax) + sClip) / 10;
             const float y_aux = std::sqrt(std::pow(10, power));
             const float phase = random.nextFloat() * 2 * PI;
-            ca[i].x = y_aux * std::cos(phase);
-            ca[i].y = y_aux * std::sin(phase);
+            fft_array[i] = y_aux * std::cos(phase);
+//            ca[i].x = y_aux * std::cos(phase);
+//            ca[i].y = y_aux * std::sin(phase);
         }
 
-        alglib::fftr1dinv(ca, audio_m);
+//        alglib::fftr1dinv(ca, audio_m);
+
+        mFFT.performRealOnlyInverseTransform(fft_array);
 
         for (int i = 0; i < win_length; ++i)
         {
             const float multiplier = 0.5f * (1 - std::cos(2 * PI * i / (win_length - 1)));
-            audio_m[i] *= multiplier;
+//            audio_m[i] *= multiplier;
+            fft_array[i] *= multiplier;
             const int idx = (idx_proc + i) & mask;
-            mAudio[idx] += audio_m[i];
+//            mAudio[idx] += audio_m[i];
+            mAudio[idx] += fft_array[i];
         }
 
         idx_proc += hop_length;
@@ -119,12 +124,14 @@ private:
     const unsigned rfft_size = (win_length / 2) + 1;
     const unsigned hop_length = 512;
 
-    alglib::complex_1d_array ca;
-    alglib::real_1d_array audio_m;
+//    alglib::complex_1d_array ca;
+//    alglib::real_1d_array audio_m;
+    float fft_array[4096] = {};
     const int mask = win_length - 1;
     int index = 0;
     int idx_proc = 0;
     std::vector<float> mAudio = std::vector<float>(win_length, 0.0f);
 
     juce::Random random{};
+    juce::dsp::FFT mFFT {11};
 };
