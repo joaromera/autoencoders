@@ -9,7 +9,8 @@ float inline linearmap(float x, float in_min, float in_max, float out_min, float
 
 //==============================================================================
 MainComponent::MainComponent()
-    : adsc(deviceManager, 2, 2, 2, 2, false, false, false, false), startTime(juce::Time::getMillisecondCounterHiRes() * 0.001)
+    : adsc(deviceManager, 2, 2, 2, 2, false, false, false, false)
+    , startTime(juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
     addAndMakeVisible(adsc);
     adsc.setBounds(900, 25, 300, 300);
@@ -47,7 +48,7 @@ MainComponent::MainComponent()
     };
     addAndMakeVisible(&sClipSlider);
 
-    for (int i = 0; i < 8; ++i)
+    for (int i = 0; i < n_sliders; ++i)
     {
         auto *s = new juce::Slider();
         s->setRange(-5.0, 5.0, 0.01);
@@ -174,9 +175,9 @@ void MainComponent::resized()
     juce::Rectangle<int> layoutArea{240, 5, 600, 190};
     auto sliderArea = layoutArea.removeFromTop(320);
 
-    for (int i = 0; i < n_sliders; ++i)
+    for (auto s : mSliders)
     {
-        mSliders[i]->setBounds(sliderArea.removeFromLeft(70));
+        s->setBounds(sliderArea.removeFromLeft(70));
     }
 
     auto area = getLocalBounds();
