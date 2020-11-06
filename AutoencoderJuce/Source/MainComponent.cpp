@@ -1,11 +1,6 @@
 #include "MainComponent.h"
 #define slider_ccnum 1
 
-float inline linearmap(float x, float in_min, float in_max, float out_min, float out_max)
-{
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
 //==============================================================================
 MainComponent::MainComponent()
     : adsc(deviceManager, 2, 2, 2, 2, false, false, false, false)
@@ -260,9 +255,10 @@ void MainComponent::handleIncomingMidiMessage(juce::MidiInput *source, const juc
             const juce::MessageManagerLock mmLock;
 
             const int sliderIndex = ccnum - slider_ccnum;
-            const float mi = mSliders[sliderIndex]->getMinimum();
-            const float ma = mSliders[sliderIndex]->getMaximum();
-            mSliders[sliderIndex]->setValue(linearmap(message.getControllerValue(), 0, 127.0, mi, ma));
+            const double mi = mSliders[sliderIndex]->getMinimum();
+            const double ma = mSliders[sliderIndex]->getMaximum();
+            const double newValue = juce::jmap<double>(message.getControllerValue(), 0, 127, mi, ma);
+            mSliders[sliderIndex]->setValue(newValue);
         }
     }
 
