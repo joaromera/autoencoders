@@ -44,20 +44,20 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
 
     settings = {}
     settings["sClip"] = -60
-    settings["hop_length_ms"] = 10
-    settings["duration"] = 60 * 2
+    hop_length_ms = 10
+    duration = 60 * 2
     settings["sr"] = 22050
-    settings["hop_length"] = hop or int(settings["hop_length_ms"] / 1000 * settings["sr"])
-    settings["win_length"] = win or settings["hop_length"] * 4
+    hop_length = hop or int(hop_length_ms / 1000 * settings["sr"])
+    settings["win_length"] = win or hop_length * 4
 
     X = []
     y = []
     phases = []
 
     for i,filename in enumerate(glob(filename)):
-        x,sr = librosa.load(filename, sr=settings["sr"], mono=True,duration=settings["duration"])
+        x,sr = librosa.load(filename, sr=settings["sr"], mono=True,duration=duration)
         x = np.trim_zeros(x)
-        F = librosa.stft(x,n_fft=settings["win_length"], hop_length=settings["hop_length"]).T
+        F = librosa.stft(x,n_fft=settings["win_length"], hop_length=hop_length).T
         phases.append(np.angle(F))
         S = 10*np.log10(np.abs(F)**2)
         S = S.clip(settings["sClip"], None)-settings["sClip"]
@@ -88,6 +88,8 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
     latent_dim = layers[-1]
 
     settings["latent_dim"] = latent_dim
+
+    settings["zRange"] = [{ "min" : -1, "max" : 1 } for i in range(latent_dim)]
 
     x = input_mag
     for l in layers:
@@ -149,7 +151,7 @@ def main():
     hop_length = int(args.hop) if args.hop else None
     win_length = int(args.win) if args.win else None
 
-    json_output = make_autoencoder(args.audio, epochs, hop_length, win_length)
+    json_output = { "parameters" : make_autoencoder(args.audio, epochs, hop_length, win_length) }
 
     if not args.model_only:
         print("\n\nDecoder model will now be converted using Frugally Deep's script'\n\n")
