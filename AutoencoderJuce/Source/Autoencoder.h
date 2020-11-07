@@ -21,14 +21,24 @@
 class Autoencoder
 {
 public:
-    explicit Autoencoder(const std::string& path)
-        : mAutoencoder(fdeep::read_model_from_string(path))
+    explicit Autoencoder(const std::string& pModel, const float pXMax, const float pSClip, const unsigned pWinLength, const unsigned pHopLength)
+        : mAutoencoder(fdeep::read_model_from_string(pModel))
         , mDepth(mAutoencoder.get_input_shapes()[0].depth_.unsafe_get_just())
         , mInput(mDepth, 0.0f)
         , mTensorShapeDepth(mDepth)
         , mTensors { fdeep::tensor(mTensorShapeDepth, mInput) }
+        , xMax(0) // TODO fix this
+        , sClip(-100) // TODO fix this
+        , win_length(pWinLength)
+        , rfft_size(mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just())
+        , hop_length(pHopLength)
+        , mask(win_length - 1)
+        , index(0)
+        , idx_proc(0)
+        , mAudio(win_length, 0.0f)
+        , random {}
+        , mFFT {11}
     {
-        DBG("[AUTOENCODER] Constructing with " << path);
         DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
         DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just());
     }
@@ -47,7 +57,13 @@ public:
         std::ifstream ifs (path);
         nlohmann::json settings;
         ifs >> settings;
-        return std::make_unique<Autoencoder>(settings.at("model").dump());
+        return std::make_unique<Autoencoder>(
+            settings.at("model").dump(),
+            std::stof(settings.at("xMax").get<std::string>()),
+            settings.at("sClip"),
+            settings.at("win_length"),
+            settings.at("hop_length")
+        );
     }
 
     void setInputLayers(const size_t pos, const float newValue)
@@ -124,18 +140,18 @@ private:
     const fdeep::tensor_shape mTensorShapeDepth;
     fdeep::tensors mTensors;
 
-    float xMax = 0;
-    float sClip = -100;
-    const unsigned win_length = 2048;
-    const unsigned rfft_size = (win_length / 2) + 1;
-    const unsigned hop_length = 512;
+    float xMax;
+    float sClip;
+    const unsigned win_length;
+    const unsigned rfft_size;
+    const unsigned hop_length;
 
     float fft_array[4096] = {};
-    const int mask = win_length - 1;
-    int index = 0;
-    int idx_proc = 0;
-    std::vector<float> mAudio = std::vector<float>(win_length, 0.0f);
+    const int mask;
+    int index;
+    int idx_proc;
+    std::vector<float> mAudio;
 
-    juce::Random random {};
-    juce::dsp::FFT mFFT {11};
+    juce::Random random;
+    juce::dsp::FFT mFFT;
 };

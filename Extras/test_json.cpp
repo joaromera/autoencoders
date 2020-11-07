@@ -9,4 +9,6 @@ int main()
     nlohmann::json data;
     ifs >> data;
     std::cout << data.at("model").dump() << std::endl;
+    float xmax = std::stof(data.at("xMax").get<std::string>());
+    std::cout << xmax << std::endl;
 }
