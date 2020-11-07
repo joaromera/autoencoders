@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include <complex>
 #include <fdeep/fdeep.hpp>
 #include <fstream>
 #include <JuceHeader.h>
@@ -113,19 +114,19 @@ public:
             const float power = ((predictionResult->at(i) * xMax) + sClip) / 10;
             const float y_aux = std::sqrt(std::pow(10, power));
             const float phase = random.nextFloat() * juce::MathConstants<float>::twoPi;
-            fft_array[i] = y_aux * std::cos(phase);
+            complex_fft_array[i] = std::complex<float>(y_aux * std::cos(phase), y_aux * std::sin(phase));
         }
 
-        mFFT.performRealOnlyInverseTransform(fft_array);
+        mFFT.perform(complex_fft_array, real_fft_array, true);
 
         for (int i = 0; i < win_length; ++i)
         {
             const float multiplier = 0.5f * (
                 1 - std::cos(juce::MathConstants<float>::twoPi * i / (win_length - 1))
             );
-            fft_array[i] *= multiplier;
+            const float sample = real_fft_array[i].real() * multiplier;
             const int idx = (idx_proc + i) & mask;
-            mAudio[idx] += fft_array[i];
+            mAudio[idx] += sample;
         }
 
         idx_proc += hop_length;
@@ -146,7 +147,8 @@ private:
     const unsigned rfft_size;
     const unsigned hop_length;
 
-    float fft_array[4096] = {};
+    std::complex<float> complex_fft_array[4096] = {};
+    std::complex<float> real_fft_array[4096] = {};
     const int mask;
     int index;
     int idx_proc;
