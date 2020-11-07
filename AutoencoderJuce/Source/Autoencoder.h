@@ -45,7 +45,7 @@ public:
         mTensors.at(0).set(fdeep::tensor_pos {pos}, newValue);
     }
 
-    size_t getInputDepth()
+    size_t getInputDepth() const
     {
         return mDepth;
     }
