@@ -1,10 +1,11 @@
 #include "MainComponent.h"
 #define slider_ccnum 1
+#define xmax_ccnum 16
+#define sclip_ccnum 17
 
 //==============================================================================
 MainComponent::MainComponent()
-    : adsc(deviceManager, 2, 2, 2, 2, false, false, false, false)
-    , startTime(juce::Time::getMillisecondCounterHiRes() * 0.001)
+    : adsc(deviceManager, 2, 2, 2, 2, false, false, false, false), startTime(juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
     addAndMakeVisible(adsc);
     adsc.setBounds(900, 25, 300, 300);
@@ -177,14 +178,15 @@ void MainComponent::openButtonClicked()
 
 void MainComponent::createSliders()
 {
-    if (!mAutoencoder) return;
+    if (!mAutoencoder)
+        return;
 
     for (int i = 0; i < mAutoencoder->getInputDepth(); ++i)
     {
         DBG("[MAINCOMPONENT] Creating slider: " << i);
 
         auto *s = new juce::Slider();
-        s->setRange(-5.0, 5.0, 0.01);
+        s->setRange(-2.0, 2.0, 0.01);
         s->setPopupMenuEnabled(true);
         s->setValue(0, juce::dontSendNotification);
         s->setSliderStyle(juce::Slider::LinearVertical);
@@ -205,7 +207,8 @@ void MainComponent::deleteSliders()
 {
     for (auto s : mSliders)
     {
-        if (!s) continue;
+        if (!s)
+            continue;
         removeChildComponent(s);
         delete s;
     }
@@ -249,6 +252,22 @@ void MainComponent::handleIncomingMidiMessage(juce::MidiInput *source, const juc
     if (message.isController())
     {
         const int ccnum = message.getControllerNumber();
+
+        if (ccnum == xmax_ccnum)
+        {
+            const double mi = xMaxSlider.getMinimum();
+            const double ma = xMaxSlider.getMaximum();
+            const double newValue = juce::jmap<double>(message.getControllerValue(), 0, 127, mi, ma);
+            xMaxSlider.setValue(newValue);
+        }
+
+        if (ccnum == sclip_ccnum)
+        {
+            const double mi = sClipSlider.getMinimum();
+            const double ma = sClipSlider.getMaximum();
+            const double newValue = juce::jmap<double>(message.getControllerValue(), 0, 127, mi, ma);
+            sClipSlider.setValue(newValue);
+        }
 
         if ((ccnum >= slider_ccnum) && (ccnum <= slider_ccnum + mSliders.size()))
         {
