@@ -28,7 +28,7 @@ class Autoencoder
 public:
 
     explicit Autoencoder(const std::string& pModel, const parameters &pParams)
-        : mAutoencoder(fdeep::read_model_from_string(pModel))
+        : mAutoencoder(fdeep::read_model_from_string(pModel, false, nullptr))
         , mInput(mAutoencoder.get_input_shapes()[0].depth_.unsafe_get_just(), 0.0f)
         , mTensors { fdeep::tensor(fdeep::tensor_shape{mInput.size()}, mInput) }
         , mParams(pParams)
@@ -38,7 +38,7 @@ public:
         , idx_proc(0)
         , mAudio(mParams.win_length, 0.0f)
         , random {}
-        , mFFT {11}
+        , mFFT {12}
     {
         DBG("[AUTOENCODER] INPUT DEPTH: " << mInput.size());
         DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just());
@@ -130,17 +130,18 @@ public:
             const float power = ((predictionResult->at(i) * mParams.xMax) + mParams.sClip) / 10;
             const float y_aux = std::sqrt(std::pow(10, power));
             const float phase = random.nextFloat() * juce::MathConstants<float>::twoPi;
-            complex_fft_array[i] = std::complex<float>(y_aux * std::cos(phase), y_aux * std::sin(phase));
+            fft_array[2 * i] = y_aux * std::cos(phase);
+            fft_array[(2 * i) + 1] = y_aux * std::sin(phase);
         }
 
-        mFFT.perform(complex_fft_array, real_fft_array, true);
+        mFFT.performRealOnlyInverseTransform(fft_array);
 
         for (int i = 0; i < mParams.win_length; ++i)
         {
             const float multiplier = 0.5f * (
                 1 - std::cos(juce::MathConstants<float>::twoPi * i / (mParams.win_length - 1))
             );
-            const float sample = real_fft_array[i].real() * multiplier;
+            const float sample = fft_array[i] * multiplier;
             const int idx = (idx_proc + i) & mask;
             mAudio[idx] += sample;
         }
@@ -174,8 +175,7 @@ private:
     parameters mParams;
     const unsigned rfft_size;
 
-    std::complex<float> complex_fft_array[4096] = {};
-    std::complex<float> real_fft_array[4096] = {};
+    float fft_array[4096*2] = {};
     const int mask;
     int index;
     int idx_proc;
