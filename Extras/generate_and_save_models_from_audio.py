@@ -42,34 +42,32 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
     import librosa
     import librosa.display
 
-    Sclip = -60
+    settings = {}
+    settings["sClip"] = -60
     hop_length_ms = 10
-    duration = 60*2
-
-    sr = 22050
-    path = filename
-
-    hop_length = hop or int(hop_length_ms/1000*sr)
-    win_length = win or hop_length*4
+    duration = 60 * 2
+    settings["sr"] = 22050
+    hop_length = hop or int(hop_length_ms / 1000 * settings["sr"])
+    settings["win_length"] = win or hop_length * 4
 
     X = []
     y = []
     phases = []
 
-    for i,filename in enumerate(glob(path)):
-        x,sr = librosa.load(filename, sr=sr, mono=True,duration=duration)
+    for i,filename in enumerate(glob(filename)):
+        x,sr = librosa.load(filename, sr=settings["sr"], mono=True,duration=duration)
         x = np.trim_zeros(x)
-        F = librosa.stft(x,n_fft=win_length, hop_length=hop_length).T
+        F = librosa.stft(x,n_fft=settings["win_length"], hop_length=hop_length).T
         phases.append(np.angle(F))
         S = 10*np.log10(np.abs(F)**2)
-        S = S.clip(Sclip, None)-Sclip
+        S = S.clip(settings["sClip"], None)-settings["sClip"]
         y.append(np.ones(S.shape[0])*i)
         X.append(S)
 
     phases = np.vstack(phases)
     X = np.vstack(X)
-    Xmax = X.max()
-    X = X/Xmax
+    settings["xMax"] = str(X.max())
+    X = X / X.max()
     y = np.hstack(y)
 
     n_features = X.shape[1]
@@ -88,6 +86,10 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
 
     layers = [512,256,128,64,32,16,8]
     latent_dim = layers[-1]
+
+    settings["latent_dim"] = latent_dim
+
+    settings["zRange"] = [{ "min" : -1, "max" : 1 } for i in range(latent_dim)]
 
     x = input_mag
     for l in layers:
@@ -132,6 +134,8 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
 
     print("\n\nModel exported to file 'decoder'\n\n")
 
+    return settings
+
 def main():
     """Do stuff"""
 
@@ -147,11 +151,20 @@ def main():
     hop_length = int(args.hop) if args.hop else None
     win_length = int(args.win) if args.win else None
 
-    make_autoencoder(args.audio, epochs, hop_length, win_length)
+    json_output = { "parameters" : make_autoencoder(args.audio, epochs, hop_length, win_length) }
 
     if not args.model_only:
         print("\n\nDecoder model will now be converted using Frugally Deep's script'\n\n")
-        convert_model.convert("./decoder", "decoder.json", True)
+        # convert_model.convert("./decoder", "decoder.json", True)
+        model = convert_model.load_model("./decoder")
+
+        json_output["model"] = convert_model.model_to_fdeep_json(model, True)
+
+        import json
+
+        with open('data.json', 'w', encoding='utf-8') as f:
+            json.dump(json_output, f, ensure_ascii=False, indent=2, allow_nan=False, sort_keys=True)
+
         os.remove('./decoder')
         print("\n\nDONE. You can now load 'decoder.json' into the application\n\n")
     else:

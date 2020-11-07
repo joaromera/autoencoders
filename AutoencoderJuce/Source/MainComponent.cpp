@@ -168,8 +168,7 @@ void MainComponent::openButtonClicked()
 
         auto file = chooser.getResult();
         DBG("[MAIN_COMPONENT] Chosen file: " + file.getFullPathName().toStdString());
-        mAutoencoder = std::make_unique<Autoencoder>(file.getFullPathName().toStdString());
-
+        mAutoencoder = Autoencoder::MakeAutoencoder(file.getFullPathName().toStdString());
         deleteSliders();
         createSliders();
         resetSliders();
@@ -186,7 +185,14 @@ void MainComponent::createSliders()
         DBG("[MAINCOMPONENT] Creating slider: " << i);
 
         auto *s = new juce::Slider();
-        s->setRange(-2.0, 2.0, 0.01);
+        if (mAutoencoder)
+        {
+            s->setRange(mAutoencoder->getSlider(i).first, mAutoencoder->getSlider(i).second, 0.01);
+        }
+        else
+        {
+            s->setRange(-2.0, 2.0, 0.01);
+        }
         s->setPopupMenuEnabled(true);
         s->setValue(0, juce::dontSendNotification);
         s->setSliderStyle(juce::Slider::LinearVertical);
