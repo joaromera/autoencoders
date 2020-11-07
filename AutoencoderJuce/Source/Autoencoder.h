@@ -40,7 +40,7 @@ public:
         , random {}
         , mFFT {11}
     {
-        DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
+        DBG("[AUTOENCODER] INPUT DEPTH: " << mInput.size());
         DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just());
 
         // TODO fix how to initialize values to avoid pops in audio when loading
