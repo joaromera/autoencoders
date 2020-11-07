@@ -17,11 +17,13 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <utility>
 #include <vector>
 
 class Autoencoder
 {
     struct parameters;
+    struct slider;
 
 public:
 
@@ -31,6 +33,7 @@ public:
         , mInput(mDepth, 0.0f)
         , mTensorShapeDepth(mDepth)
         , mTensors { fdeep::tensor(mTensorShapeDepth, mInput) }
+        , mParams(pParams)
         , xMax(0) // TODO fix this
         , sClip(-100) // TODO fix this
         , win_length(pParams.win_length)
@@ -82,6 +85,11 @@ public:
     size_t getInputDepth() const
     {
         return mDepth;
+    }
+
+    std::pair<float, float> getSlider(const size_t pos)
+    {
+        return { mParams.zRange[pos].min, mParams.zRange[pos].max };
     }
 
     void setXMax(const float newValue)

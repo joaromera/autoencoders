@@ -183,7 +183,14 @@ void MainComponent::createSliders()
         DBG("[MAINCOMPONENT] Creating slider: " << i);
 
         auto *s = new juce::Slider();
-        s->setRange(-5.0, 5.0, 0.01);
+        if (mAutoencoder)
+        {
+            s->setRange(mAutoencoder->getSlider(i).first, mAutoencoder->getSlider(i).second, 0.01);
+        }
+        else
+        {
+            s->setRange(-5.0, 5.0, 0.01);
+        }
         s->setPopupMenuEnabled(true);
         s->setValue(0, juce::dontSendNotification);
         s->setSliderStyle(juce::Slider::LinearVertical);
