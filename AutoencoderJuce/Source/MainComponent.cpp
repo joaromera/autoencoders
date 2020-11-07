@@ -167,8 +167,7 @@ void MainComponent::openButtonClicked()
 
         auto file = chooser.getResult();
         DBG("[MAIN_COMPONENT] Chosen file: " + file.getFullPathName().toStdString());
-        mAutoencoder = std::make_unique<Autoencoder>(file.getFullPathName().toStdString());
-
+        mAutoencoder = Autoencoder::MakeAutoencoder(file.getFullPathName().toStdString());
         deleteSliders();
         createSliders();
         resetSliders();

@@ -11,7 +11,10 @@
 #pragma once
 
 #include <fdeep/fdeep.hpp>
+#include <fstream>
 #include <JuceHeader.h>
+#include <memory>
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 
@@ -19,7 +22,7 @@ class Autoencoder
 {
 public:
     explicit Autoencoder(const std::string& path)
-        : mAutoencoder(fdeep::load_model(path))
+        : mAutoencoder(fdeep::read_model_from_string(path))
         , mDepth(mAutoencoder.get_input_shapes()[0].depth_.unsafe_get_just())
         , mInput(mDepth, 0.0f)
         , mTensorShapeDepth(mDepth)
@@ -37,6 +40,14 @@ public:
     ~Autoencoder()
     {
         DBG("[AUTOENCODER] Destroying...");
+    }
+
+    static std::unique_ptr<Autoencoder> MakeAutoencoder(const std::string& path)
+    {
+        std::ifstream ifs (path);
+        nlohmann::json settings;
+        ifs >> settings;
+        return std::make_unique<Autoencoder>(settings.at("model").dump());
     }
 
     void setInputLayers(const size_t pos, const float newValue)
