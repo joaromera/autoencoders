@@ -29,24 +29,23 @@ public:
 
     explicit Autoencoder(const std::string& pModel, const parameters &pParams)
         : mAutoencoder(fdeep::read_model_from_string(pModel))
-        , mDepth(mAutoencoder.get_input_shapes()[0].depth_.unsafe_get_just())
-        , mInput(mDepth, 0.0f)
-        , mTensorShapeDepth(mDepth)
-        , mTensors { fdeep::tensor(mTensorShapeDepth, mInput) }
+        , mInput(mAutoencoder.get_input_shapes()[0].depth_.unsafe_get_just(), 0.0f)
+        , mTensors { fdeep::tensor(fdeep::tensor_shape{mInput.size()}, mInput) }
         , mParams(pParams)
-        , xMax(0) // TODO fix this
-        , sClip(-100) // TODO fix this
-        , win_length(pParams.win_length)
         , rfft_size(mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just())
-        , mask(win_length - 1)
+        , mask(mParams.win_length - 1)
         , index(0)
         , idx_proc(0)
-        , mAudio(win_length, 0.0f)
+        , mAudio(mParams.win_length, 0.0f)
         , random {}
         , mFFT {11}
     {
         DBG("[AUTOENCODER] INPUT DEPTH: " << mDepth);
         DBG("[AUTOENCODER] OUTPUT DEPTH: " << mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just());
+
+        // TODO fix how to initialize values to avoid pops in audio when loading
+        mParams.xMax = 0;
+        mParams.sClip = -100;
     }
 
     Autoencoder() = delete;
@@ -66,11 +65,14 @@ public:
 
         parameters params;
         params.win_length = settings["parameters"]["win_length"];
-        params.sClip = settings["parameters"]["sClip"];
+        params.sClip = std::stof(settings["parameters"]["sClip"].get<std::string>());
         params.xMax = std::stof(settings["parameters"]["xMax"].get<std::string>());
         for (const auto &i : settings["parameters"]["zRange"])
         {
-            params.zRange.emplace_back(i["min"], i["max"]);
+            params.zRange.emplace_back(
+                std::stof(i["min"].get<std::string>()),
+                std::stof(i["max"].get<std::string>())
+            );
         }
 
         return std::make_unique<Autoencoder>(settings["model"].dump(), params);
@@ -84,7 +86,7 @@ public:
 
     size_t getInputDepth() const
     {
-        return mDepth;
+        return mInput.size();
     }
 
     std::pair<float, float> getSlider(const size_t pos)
@@ -95,13 +97,13 @@ public:
     void setXMax(const float newValue)
     {
         DBG("[AUTOENCODER] xMax Length: " << newValue);
-        xMax = newValue;
+        mParams.xMax = newValue;
     }
 
     void setSClip(const float newValue)
     {
         DBG("[AUTOENCODER] sClip Length: " << newValue);
-        sClip = newValue;
+        mParams.sClip = newValue;
     }
 
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
@@ -125,7 +127,7 @@ public:
 
         for (int i = 0; i < rfft_size; ++i)
         {
-            const float power = ((predictionResult->at(i) * xMax) + sClip) / 10;
+            const float power = ((predictionResult->at(i) * mParams.xMax) + mParams.sClip) / 10;
             const float y_aux = std::sqrt(std::pow(10, power));
             const float phase = random.nextFloat() * juce::MathConstants<float>::twoPi;
             complex_fft_array[i] = std::complex<float>(y_aux * std::cos(phase), y_aux * std::sin(phase));
@@ -133,10 +135,10 @@ public:
 
         mFFT.perform(complex_fft_array, real_fft_array, true);
 
-        for (int i = 0; i < win_length; ++i)
+        for (int i = 0; i < mParams.win_length; ++i)
         {
             const float multiplier = 0.5f * (
-                1 - std::cos(juce::MathConstants<float>::twoPi * i / (win_length - 1))
+                1 - std::cos(juce::MathConstants<float>::twoPi * i / (mParams.win_length - 1))
             );
             const float sample = real_fft_array[i].real() * multiplier;
             const int idx = (idx_proc + i) & mask;
@@ -166,15 +168,10 @@ private:
     };
 
     const fdeep::model mAutoencoder;
-    const std::size_t mDepth;
     std::vector<float> mInput;
-    const fdeep::tensor_shape mTensorShapeDepth;
     fdeep::tensors mTensors;
 
     parameters mParams;
-    float xMax;
-    float sClip;
-    const unsigned win_length;
     const unsigned rfft_size;
 
     std::complex<float> complex_fft_array[4096] = {};
