@@ -43,7 +43,8 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
     import librosa.display
 
     settings = {}
-    settings["sClip"] = -60
+    sClip = -60
+    settings["sClip"] = str(float(sClip))
     hop_length_ms = 10
     duration = 60 * 2
     settings["sr"] = 22050
@@ -60,7 +61,7 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
         F = librosa.stft(x,n_fft=settings["win_length"], hop_length=hop_length).T
         phases.append(np.angle(F))
         S = 10*np.log10(np.abs(F)**2)
-        S = S.clip(settings["sClip"], None)-settings["sClip"]
+        S = S.clip(sClip, None)-sClip
         y.append(np.ones(S.shape[0])*i)
         X.append(S)
 
@@ -89,7 +90,7 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
 
     settings["latent_dim"] = latent_dim
 
-    settings["zRange"] = [{ "min" : -1, "max" : 1 } for i in range(latent_dim)]
+    settings["zRange"] = [{ "min" : "-1.0", "max" : "1.0" } for i in range(latent_dim)]
 
     x = input_mag
     for l in layers:
