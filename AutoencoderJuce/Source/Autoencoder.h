@@ -21,8 +21,11 @@
 
 class Autoencoder
 {
+    struct parameters;
+
 public:
-    explicit Autoencoder(const std::string& pModel, const float pXMax, const float pSClip, const unsigned pWinLength, const unsigned pHopLength)
+
+    explicit Autoencoder(const std::string& pModel, const parameters &pParams)
         : mAutoencoder(fdeep::read_model_from_string(pModel))
         , mDepth(mAutoencoder.get_input_shapes()[0].depth_.unsafe_get_just())
         , mInput(mDepth, 0.0f)
@@ -30,9 +33,8 @@ public:
         , mTensors { fdeep::tensor(mTensorShapeDepth, mInput) }
         , xMax(0) // TODO fix this
         , sClip(-100) // TODO fix this
-        , win_length(pWinLength)
+        , win_length(pParams.win_length)
         , rfft_size(mAutoencoder.get_output_shapes()[0].depth_.unsafe_get_just())
-        , hop_length(pHopLength)
         , mask(win_length - 1)
         , index(0)
         , idx_proc(0)
@@ -58,13 +60,17 @@ public:
         std::ifstream ifs (path);
         nlohmann::json settings;
         ifs >> settings;
-        return std::make_unique<Autoencoder>(
-            settings.at("model").dump(),
-            std::stof(settings.at("xMax").get<std::string>()),
-            settings.at("sClip"),
-            settings.at("win_length"),
-            settings.at("hop_length")
-        );
+
+        parameters params;
+        params.win_length = settings["parameters"]["win_length"];
+        params.sClip = settings["parameters"]["sClip"];
+        params.xMax = std::stof(settings["parameters"]["xMax"].get<std::string>());
+        for (const auto &i : settings["parameters"]["zRange"])
+        {
+            params.zRange.emplace_back(i["min"], i["max"]);
+        }
+
+        return std::make_unique<Autoencoder>(settings["model"].dump(), params);
     }
 
     void setInputLayers(const size_t pos, const float newValue)
@@ -92,7 +98,7 @@ public:
 
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
     {
-        calculate();
+        calculate(bufferToFill.numSamples);
 
         for (int sample = 0; sample < bufferToFill.numSamples; ++sample)
         {
@@ -105,7 +111,7 @@ public:
         index &= mask;
     }
 
-    void calculate()
+    void calculate(const int bufferToFillSize)
     {
         const auto predictionResult = mAutoencoder.predict(mTensors)[0].as_vector();
 
@@ -129,11 +135,27 @@ public:
             mAudio[idx] += sample;
         }
 
-        idx_proc += hop_length;
+        idx_proc += bufferToFillSize;
         idx_proc &= mask;
     }
 
 private:
+
+    struct slider
+    {
+        slider(float pMin, float pMax) : min(pMin), max(pMax) {}
+
+        float min;
+        float max;
+    };
+
+    struct parameters
+    {
+        float xMax;
+        float sClip;
+        unsigned win_length;
+        std::vector<slider> zRange;
+    };
 
     const fdeep::model mAutoencoder;
     const std::size_t mDepth;
@@ -141,11 +163,11 @@ private:
     const fdeep::tensor_shape mTensorShapeDepth;
     fdeep::tensors mTensors;
 
+    parameters mParams;
     float xMax;
     float sClip;
     const unsigned win_length;
     const unsigned rfft_size;
-    const unsigned hop_length;
 
     std::complex<float> complex_fft_array[4096] = {};
     std::complex<float> real_fft_array[4096] = {};
