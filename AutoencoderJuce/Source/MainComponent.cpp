@@ -2,6 +2,7 @@
 #define slider_ccnum 1
 #define xmax_ccnum 16
 #define sclip_ccnum 17
+#define alphaphase_ccnum 18
 
 //==============================================================================
 MainComponent::MainComponent()
@@ -177,7 +178,7 @@ void MainComponent::openButtonClicked()
     }
 }
 
-void MainComponent::loadAutoencoder(const juce::String& path)
+void MainComponent::loadAutoencoder(const juce::String &path)
 {
     juce::ScopedLock lock(deviceManager.getAudioCallbackLock());
 
@@ -234,19 +235,18 @@ void MainComponent::createSliders()
 
     for (int i = 0; i < 10; ++i)
     {
-        auto* tb = new juce::TextButton ("Preset " + juce::String (i + 1));
+        auto *tb = new juce::TextButton("Preset " + juce::String(i + 1));
 
-        tb->setClickingTogglesState (false);
-        tb->setRadioGroupId (34567);
-        tb->setColour (juce::TextButton::textColourOffId,  juce::Colours::black);
-        tb->setColour (juce::TextButton::textColourOnId,   juce::Colours::black);
-        tb->setColour (juce::TextButton::buttonColourId,   juce::Colours::white);
-        tb->setColour (juce::TextButton::buttonOnColourId, juce::Colours::blueviolet.brighter());
-        tb->setBounds (240 + i * 55, 260, 55, 24);
-        tb->setConnectedEdges (((i != 0) ? juce::Button::ConnectedOnLeft : 0)
-                               | ((i != 9) ? juce::Button::ConnectedOnRight : 0));
+        tb->setClickingTogglesState(false);
+        tb->setRadioGroupId(34567);
+        tb->setColour(juce::TextButton::textColourOffId, juce::Colours::black);
+        tb->setColour(juce::TextButton::textColourOnId, juce::Colours::black);
+        tb->setColour(juce::TextButton::buttonColourId, juce::Colours::white);
+        tb->setColour(juce::TextButton::buttonOnColourId, juce::Colours::blueviolet.brighter());
+        tb->setBounds(240 + i * 55, 260, 55, 24);
+        tb->setConnectedEdges(((i != 0) ? juce::Button::ConnectedOnLeft : 0) | ((i != 9) ? juce::Button::ConnectedOnRight : 0));
 
-        tb->onClick = [this, i, tb] () {
+        tb->onClick = [this, i, tb]() {
             if (mStorePreset->getToggleState())
             {
                 for (int s = 0; s < mSliders.size(); ++s)
@@ -335,6 +335,13 @@ void MainComponent::handleIncomingMidiMessage(juce::MidiInput *source, const juc
     {
         const int ccnum = message.getControllerNumber();
 
+        if (ccnum == alphaphase_ccnum)
+        {
+            const double newValue = juce::jmap<double>(message.getControllerValue(), 0, 127, 0, 1);
+            mAutoencoder->setAlphaPhase(newValue);
+            std::cout << newValue << std::endl;
+        }
+
         if (ccnum == xmax_ccnum)
         {
             const double mi = xMaxSlider.getMinimum();
@@ -351,8 +358,9 @@ void MainComponent::handleIncomingMidiMessage(juce::MidiInput *source, const juc
             sClipSlider.setValue(newValue);
         }
 
-        if ((ccnum >= slider_ccnum) && (ccnum <= slider_ccnum + mSliders.size()))
+        if ((ccnum >= slider_ccnum) && (ccnum < slider_ccnum + mSliders.size()))
         {
+
             const juce::MessageManagerLock mmLock;
 
             const int sliderIndex = ccnum - slider_ccnum;
