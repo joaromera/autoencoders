@@ -85,6 +85,13 @@ MainComponent::MainComponent()
         // Specify the number of input and output channels that we want to open
         setAudioChannels(0, 2);
     }
+
+    juce::StringArray commandLineArguments = juce::JUCEApplication::getCommandLineParameterArray();
+
+    if (!commandLineArguments.isEmpty())
+    {
+        loadAutoencoder(commandLineArguments[0]);
+    }
 }
 
 MainComponent::~MainComponent()
@@ -167,6 +174,24 @@ void MainComponent::openButtonClicked()
         {
             DBG("[MAINCOMPONENT] Error loading model: " << e.what());
         }
+    }
+}
+
+void MainComponent::loadAutoencoder(const juce::String& path)
+{
+    juce::ScopedLock lock(deviceManager.getAudioCallbackLock());
+
+    try
+    {
+        DBG("[MAIN_COMPONENT] Chosen file: " + path);
+        mAutoencoder = Autoencoder::MakeAutoencoder(path.toStdString());
+        deleteSliders();
+        createSliders();
+        resetSliders();
+    }
+    catch (std::exception &e)
+    {
+        DBG("[MAINCOMPONENT] Error loading model: " << e.what());
     }
 }
 

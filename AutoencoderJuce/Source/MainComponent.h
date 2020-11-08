@@ -31,6 +31,7 @@ public:
 private:
     //==============================================================================
     void openButtonClicked();
+    void loadAutoencoder(const juce::String& path);
     void createSliders();
     void deleteSliders();
     void resetSliders();
