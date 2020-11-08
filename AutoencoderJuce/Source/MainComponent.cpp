@@ -197,8 +197,51 @@ void MainComponent::createSliders()
             DBG("[MAINCOMPONENT] slider: " << i << " new value: " << s->getValue());
             mAutoencoder->setInputLayers(i, s->getValue());
         };
+
         addAndMakeVisible(s);
         mSliders.push_back(s);
+    }
+
+    mStorePreset = new juce::ToggleButton("Store sliders");
+    mStorePreset->setBounds(240, 230, 110, 24);
+    mStorePreset->setToggleState(false, juce::dontSendNotification);
+    addAndMakeVisible(mStorePreset);
+
+    for (int i = 0; i < 10; ++i)
+    {
+        auto* tb = new juce::TextButton ("Preset " + juce::String (i + 1));
+
+        tb->setClickingTogglesState (false);
+        tb->setRadioGroupId (34567);
+        tb->setColour (juce::TextButton::textColourOffId,  juce::Colours::black);
+        tb->setColour (juce::TextButton::textColourOnId,   juce::Colours::black);
+        tb->setColour (juce::TextButton::buttonColourId,   juce::Colours::white);
+        tb->setColour (juce::TextButton::buttonOnColourId, juce::Colours::blueviolet.brighter());
+        tb->setBounds (240 + i * 55, 260, 55, 24);
+        tb->setConnectedEdges (((i != 0) ? juce::Button::ConnectedOnLeft : 0)
+                               | ((i != 9) ? juce::Button::ConnectedOnRight : 0));
+
+        tb->onClick = [this, i, tb] () {
+            if (mStorePreset->getToggleState())
+            {
+                for (int s = 0; s < mSliders.size(); ++s)
+                {
+                    mSlidersMemory[i][s] = mSliders[s]->getValue();
+                }
+                mStorePreset->setToggleState(false, juce::dontSendNotification);
+            }
+            else
+            {
+                for (int s = 0; s < mSliders.size(); ++s)
+                {
+                    mSliders[s]->setValue(mSlidersMemory[i][s]);
+                }
+            }
+        };
+
+        addAndMakeVisible(tb);
+        mTextButtons.push_back(tb);
+        mSlidersMemory.push_back(std::vector<float>(mSliders.size(), 0.0f));
     }
 
     resized();
@@ -213,8 +256,21 @@ void MainComponent::deleteSliders()
         removeChildComponent(s);
         delete s;
     }
-
     mSliders.clear();
+
+    for (auto tb : mTextButtons)
+    {
+        if (!tb)
+            continue;
+        removeChildComponent(tb);
+        delete tb;
+    }
+    mTextButtons.clear();
+    mSlidersMemory.clear();
+
+    removeChildComponent(mStorePreset);
+    delete mStorePreset;
+
     resized();
 }
 

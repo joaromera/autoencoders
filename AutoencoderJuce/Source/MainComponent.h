@@ -45,7 +45,10 @@ private:
     juce::Slider sClipSlider;
     juce::AudioDeviceSelectorComponent adsc;
 
+    juce::ToggleButton* mStorePreset;
     std::vector<juce::Slider*> mSliders;
+    std::vector<std::vector<float>> mSlidersMemory;
+    std::vector<juce::TextButton*> mTextButtons;
 
     //==============================================================================
     // from handling midi events
