@@ -70,17 +70,6 @@ MainComponent::MainComponent()
     if (midiInputList.getSelectedId() == 0)
         setMidiInput(0);
 
-    addAndMakeVisible(midiMessagesBox);
-    midiMessagesBox.setMultiLine(true);
-    midiMessagesBox.setReturnKeyStartsNewLine(true);
-    midiMessagesBox.setReadOnly(true);
-    midiMessagesBox.setScrollbarsShown(true);
-    midiMessagesBox.setCaretVisible(false);
-    midiMessagesBox.setPopupMenuEnabled(true);
-    midiMessagesBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
-    midiMessagesBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
-    midiMessagesBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
-
     // Make sure you set the size of the component after
     // you add any child components.
     setSize(1200, 400);
@@ -155,7 +144,6 @@ void MainComponent::resized()
 
     auto area = getLocalBounds();
     midiInputList.setBounds(area.removeFromTop(36).removeFromRight(getWidth() / 4).reduced(8));
-    midiMessagesBox.setBounds(area.removeFromBottom(getHeight() / 2));
 }
 
 void MainComponent::openButtonClicked()
@@ -315,11 +303,5 @@ void MainComponent::addMessageToList(const juce::MidiMessage &message, const juc
     auto description = getMidiMessageDescription(message);
 
     juce::String midiMessageString(timecode + "  -  " + description + " (" + source + ")"); // [7]
-    logMessage(midiMessageString);
-}
-
-void MainComponent::logMessage(const juce::String &m)
-{
-    midiMessagesBox.moveCaretToEnd();
-    midiMessagesBox.insertTextAtCaret(m + juce::newLine);
+    DBG("[MAINCOMPONENT] Incoming midi: " << midiMessageString);
 }

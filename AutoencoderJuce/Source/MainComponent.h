@@ -38,7 +38,6 @@ private:
     void handleIncomingMidiMessage(juce::MidiInput*, const juce::MidiMessage&) override;
     void postMessageToList(const juce::MidiMessage&, const juce::String&);
     void addMessageToList(const juce::MidiMessage&, const juce::String&);
-    void logMessage (const juce::String& m);
 
     std::unique_ptr<Autoencoder> mAutoencoder;
     juce::TextButton openButton;
@@ -55,7 +54,6 @@ private:
     int lastInputIndex = 0;                           // [3]
     bool isAddingFromMidiInput = false;               // [4]
 
-    juce::TextEditor midiMessagesBox;
     double startTime;
 
     // This is used to dispach an incoming message to the message thread
