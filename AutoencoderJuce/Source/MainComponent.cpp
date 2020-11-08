@@ -154,12 +154,19 @@ void MainComponent::openButtonClicked()
     {
         juce::ScopedLock lock(deviceManager.getAudioCallbackLock());
 
-        auto file = chooser.getResult();
-        DBG("[MAIN_COMPONENT] Chosen file: " + file.getFullPathName().toStdString());
-        mAutoencoder = Autoencoder::MakeAutoencoder(file.getFullPathName().toStdString());
-        deleteSliders();
-        createSliders();
-        resetSliders();
+        try
+        {
+            auto file = chooser.getResult();
+            DBG("[MAIN_COMPONENT] Chosen file: " + file.getFullPathName().toStdString());
+            mAutoencoder = Autoencoder::MakeAutoencoder(file.getFullPathName().toStdString());
+            deleteSliders();
+            createSliders();
+            resetSliders();
+        }
+        catch (std::exception &e)
+        {
+            DBG("[MAINCOMPONENT] Error loading model: " << e.what());
+        }
     }
 }
 

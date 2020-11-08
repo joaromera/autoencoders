@@ -90,7 +90,7 @@ def make_autoencoder(filename, epochs=1, hop=None, win=None):
 
     settings["latent_dim"] = latent_dim
 
-    settings["zRange"] = [{ "min" : "-1.0", "max" : "1.0" } for i in range(latent_dim)]
+    settings["zRange"] = [{ "min" : "-5.0", "max" : "5.0" } for i in range(latent_dim)]
 
     x = input_mag
     for l in layers:
