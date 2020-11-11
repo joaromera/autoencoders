@@ -1,4 +1,5 @@
 #include "MainComponent.h"
+#define DEFAULT_BUFFER_SIZE 512
 #define slider_ccnum 1
 #define xmax_ccnum 16
 #define sclip_ccnum 17
@@ -105,6 +106,10 @@ void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate
 {
     DBG("[MAINCOMPONENT] Sample rate " << sampleRate);
     DBG("[MAINCOMPONENT] Buffer Size " << samplesPerBlockExpected);
+
+    auto ad = deviceManager.getAudioDeviceSetup();
+    ad.bufferSize = DEFAULT_BUFFER_SIZE;
+    deviceManager.setAudioDeviceSetup(ad, true);
 }
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
@@ -205,14 +210,7 @@ void MainComponent::createSliders()
         DBG("[MAINCOMPONENT] Creating slider: " << i);
 
         auto *s = new juce::Slider();
-        if (mAutoencoder)
-        {
-            s->setRange(mAutoencoder->getSlider(i).first, mAutoencoder->getSlider(i).second, 0.01);
-        }
-        else
-        {
-            s->setRange(-2.0, 2.0, 0.01);
-        }
+        s->setRange(mAutoencoder->getSlider(i).first, mAutoencoder->getSlider(i).second, 0.01);
         s->setPopupMenuEnabled(true);
         s->setValue(0, juce::dontSendNotification);
         s->setSliderStyle(juce::Slider::LinearVertical);
@@ -227,9 +225,9 @@ void MainComponent::createSliders()
         mSliders.push_back(s);
     }
 
-    mStorePreset = new juce::ToggleButton("Store sliders");
-    mStorePreset->setBounds(240, 230, 110, 24);
-    mStorePreset->setToggleState(false, juce::dontSendNotification);
+    mStorePreset.setButtonText("Store sliders");
+    mStorePreset.setBounds(240, 230, 110, 24);
+    mStorePreset.setToggleState(false, juce::dontSendNotification);
     addAndMakeVisible(mStorePreset);
 
     for (int i = 0; i < 10; ++i)
@@ -244,16 +242,16 @@ void MainComponent::createSliders()
         tb->setColour (juce::TextButton::buttonOnColourId, juce::Colours::blueviolet.brighter());
         tb->setBounds (240 + i * 55, 260, 55, 24);
         tb->setConnectedEdges (((i != 0) ? juce::Button::ConnectedOnLeft : 0)
-                               | ((i != 9) ? juce::Button::ConnectedOnRight : 0));
+            | ((i != 9) ? juce::Button::ConnectedOnRight : 0));
 
         tb->onClick = [this, i, tb] () {
-            if (mStorePreset->getToggleState())
+            if (mStorePreset.getToggleState())
             {
                 for (int s = 0; s < mSliders.size(); ++s)
                 {
                     mSlidersMemory[i][s] = mSliders[s]->getValue();
                 }
-                mStorePreset->setToggleState(false, juce::dontSendNotification);
+                mStorePreset.setToggleState(false, juce::dontSendNotification);
             }
             else
             {
@@ -266,7 +264,7 @@ void MainComponent::createSliders()
 
         addAndMakeVisible(tb);
         mTextButtons.push_back(tb);
-        mSlidersMemory.push_back(std::vector<float>(mSliders.size(), 0.0f));
+        mSlidersMemory.emplace_back(mSliders.size(), 0.0f);
     }
 
     resized();
@@ -293,8 +291,7 @@ void MainComponent::deleteSliders()
     mTextButtons.clear();
     mSlidersMemory.clear();
 
-    removeChildComponent(mStorePreset);
-    delete mStorePreset;
+    removeChildComponent(&mStorePreset);
 
     resized();
 }

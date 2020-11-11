@@ -40,16 +40,16 @@ private:
     void postMessageToList(const juce::MidiMessage&, const juce::String&);
     void addMessageToList(const juce::MidiMessage&, const juce::String&);
 
-    std::unique_ptr<Autoencoder> mAutoencoder;
-    juce::TextButton openButton;
-    juce::Slider xMaxSlider;
-    juce::Slider sClipSlider;
     juce::AudioDeviceSelectorComponent adsc;
-
-    juce::ToggleButton* mStorePreset;
+    juce::ToggleButton mStorePreset;
     std::vector<juce::Slider*> mSliders;
     std::vector<std::vector<float>> mSlidersMemory;
     std::vector<juce::TextButton*> mTextButtons;
+    juce::TextButton openButton;
+    juce::Slider xMaxSlider;
+    juce::Slider sClipSlider;
+
+    std::unique_ptr<Autoencoder> mAutoencoder;
 
     //==============================================================================
     // from handling midi events
