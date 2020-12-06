@@ -1,8 +1,10 @@
 #include "MainComponent.h"
-#define DEFAULT_BUFFER_SIZE 512
-#define slider_ccnum 1
-#define xmax_ccnum 16
-#define sclip_ccnum 17
+
+// TODO: ccnums should be runtime assignable
+constexpr int DEFAULT_BUFFER_SIZE = 512;
+constexpr int slider_ccnum = 1;
+constexpr int xmax_ccnum = 16;
+constexpr int sclip_ccnum = 17;
 
 //==============================================================================
 MainComponent::MainComponent()
